@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
 
 *{
@@ -931,6 +931,98 @@ th{
   border-radius:15px;
   box-shadow:var(--shadow);
   text-align:center;
+}
+
+/* JOS professional branded loading animation */
+.jos-loader-box{
+  min-width:230px;
+  padding:27px 34px 23px;
+  border:1px solid rgba(14,165,233,.16);
+  border-radius:20px;
+  background:rgba(255,255,255,.97);
+}
+.jos-loader-brand{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  min-height:48px;
+  margin-bottom:12px;
+}
+.jos-loader-word{
+  color:#075985;
+  font-size:34px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:3px;
+  text-shadow:0 4px 14px rgba(2,132,199,.16);
+  animation:josBrandPulse 1.35s ease-in-out infinite;
+}
+.jos-loader-dots{
+  display:inline-flex;
+  align-items:center;
+  gap:3px;
+  padding-top:15px;
+}
+.jos-loader-dots i{
+  width:5px;
+  height:5px;
+  display:block;
+  border-radius:50%;
+  background:#0ea5e9;
+  opacity:.25;
+  animation:josDotBlink 1.05s infinite ease-in-out;
+}
+.jos-loader-dots i:nth-child(2){animation-delay:.18s}
+.jos-loader-dots i:nth-child(3){animation-delay:.36s}
+.jos-loader-line{
+  width:100%;
+  height:3px;
+  margin:0 auto 15px;
+  overflow:hidden;
+  border-radius:10px;
+  background:#e0f2fe;
+  position:relative;
+}
+.jos-loader-line::after{
+  content:"";
+  position:absolute;
+  inset:0 auto 0 0;
+  width:38%;
+  border-radius:10px;
+  background:linear-gradient(90deg,#075985,#0ea5e9,#38bdf8);
+  animation:josLoadingLine 1.45s ease-in-out infinite;
+}
+#loaderText{
+  display:block;
+  color:#334155;
+  font-size:13px;
+  font-weight:700;
+  line-height:1.5;
+}
+.jos-loader-caption{
+  display:block;
+  margin-top:6px;
+  color:#94a3b8;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+}
+@keyframes josBrandPulse{
+  0%,100%{opacity:.72;transform:scale(.97)}
+  50%{opacity:1;transform:scale(1.04)}
+}
+@keyframes josDotBlink{
+  0%,80%,100%{opacity:.2;transform:translateY(0)}
+  40%{opacity:1;transform:translateY(-4px)}
+}
+@keyframes josLoadingLine{
+  0%{left:-40%}
+  100%{left:110%}
+}
+@media(prefers-reduced-motion:reduce){
+  .jos-loader-word,.jos-loader-dots i,.jos-loader-line::after{animation:none}
 }
 
 .spinner{
@@ -3862,6 +3954,22 @@ body{
 
 
 
+/* JOS professional page background - soft tones matching the teal/blue header */
+body{
+  background:linear-gradient(135deg,#eef8fa 0%,#f3f7fc 48%,#eaf3f8 100%);
+}
+.admin-page{
+  background:linear-gradient(135deg,#edf7f9 0%,#f4f8fc 55%,#eaf3f8 100%);
+}
+
+/* Real registered user photo in header, profile and printable ID card */
+#userDashboard .profile-btn{display:grid;place-items:center;padding:0;background:#ffffff!important;flex:0 0 42px;width:42px;height:42px;border-radius:50%;}
+#userDashboard .profile-btn .jos-user-avatar{display:block;width:100%;height:100%;min-width:100%;min-height:100%;border:0;border-radius:50%;object-fit:cover;}
+#userDashboard .profile-btn .profile-avatar-fallback{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:#e5f3f5;color:#087f8c;font-weight:900;}
+#userDashboard .user-brand-mark{font-size:13px;letter-spacing:.4px;font-weight:900;}
+.jos-idcard-avatar{overflow:hidden;}
+.jos-idcard-real-photo{display:block;width:100%;height:100%;object-fit:cover;border-radius:11px;}
+.jos-idcard-initial{display:grid;place-items:center;width:100%;height:100%;font-size:32px;font-weight:900;color:#087f8c;background:#e3f2f5;}
 </style>
 
 <style id="jos-admin-professional-upgrade">
@@ -4116,6 +4224,10 @@ img, picture, svg {
 <style id="jos-bottom-app-navigation-css">
 /* Native-app-style bottom navigation: UI only, existing dashboard actions reused. */
 .jos-bottom-app-nav{display:none;}
+.jos-bottom-app-nav{
+    border-top:1px solid rgba(7,89,133,.14);
+    border-radius:20px 20px 0 0;
+}
 @media(max-width:850px){
   #userDashboard{padding-bottom:calc(82px + env(safe-area-inset-bottom, 0px));}
   .jos-bottom-app-nav{
@@ -4166,15 +4278,357 @@ img, picture, svg {
   });
 })();
 </script>
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-<style id="jos-admin-only-mode">
-/* Admin-only build: user sign-in, registration and user dashboard are removed. */
-#userLoginBtn, #openRegistration, .registration-area, .registration-open,
-#registerCard, #userDashboard { display:none !important; }
-#adminLoginBtn { display:flex !important; }
-.login-type-buttons { grid-template-columns:1fr !important; }
-#adminLoginBtn { border-color:#0284c7 !important; background:linear-gradient(135deg,#eff6ff,#e0f2fe) !important; }
-#adminLoginBtn > i { color:#fff !important; background:linear-gradient(135deg,#075985,#0ea5e9) !important; }
+<style id="jos-profile-desktop-professional-v3">
+/* Desktop-only profile popup refinement. Existing mobile layout and profile functions remain unchanged. */
+@media (min-width: 801px) {
+  #profileModal {
+    padding: 28px !important;
+    background: rgba(7, 24, 39, .72) !important;
+    backdrop-filter: blur(9px);
+  }
+  #profileModal .modal-box {
+    width: min(1080px, 94vw) !important;
+    max-width: 1080px !important;
+    max-height: min(900px, 91vh) !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(255,255,255,.75);
+    border-radius: 24px !important;
+    background: #f6fafc !important;
+    box-shadow: 0 32px 90px rgba(2, 22, 38, .34) !important;
+    animation: josProfileDesktopIn .22s ease-out both;
+  }
+  #profileModal .modal-head {
+    min-height: 76px;
+    padding: 18px 28px !important;
+    color: #fff;
+    background: linear-gradient(110deg, #063b59, #087f8c 68%, #0b9ca8);
+    border: 0 !important;
+  }
+  #profileModal .modal-head h2 {
+    color: #fff !important;
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: .2px;
+  }
+  #profileModal .close-btn {
+    width: 40px;
+    height: 40px;
+    color: #fff;
+    background: rgba(255,255,255,.16);
+    border: 1px solid rgba(255,255,255,.28);
+    font-size: 25px;
+    transition: .2s ease;
+  }
+  #profileModal .close-btn:hover {
+    background: #e34d5b;
+    transform: rotate(90deg);
+  }
+  #profileModal .modal-body {
+    padding: 26px 30px 22px !important;
+    max-height: calc(min(900px, 91vh) - 76px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #9bbdc7 #edf4f6;
+  }
+  #profileModal #profileContent {
+    display: block !important;
+    width: 100%;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+  }
+  #profileContent .jos-profile-hero-v2 {
+    min-height: 210px;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 190px;
+    align-items: center !important;
+    gap: 28px !important;
+    padding: 25px 30px !important;
+    margin: 0 0 25px !important;
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 20px !important;
+    background:
+      radial-gradient(circle at 80% 0%, rgba(91,221,221,.25), transparent 32%),
+      linear-gradient(120deg, #07364f 0%, #075e70 55%, #078e98 100%) !important;
+    box-shadow: 0 13px 30px rgba(5, 72, 91, .16);
+  }
+  #profileContent .jos-profile-person {
+    display: flex !important;
+    align-items: center !important;
+    gap: 25px !important;
+    min-width: 0;
+  }
+  #profileContent .jos-profile-photo-ring {
+    width: 142px !important;
+    height: 142px !important;
+    min-width: 142px !important;
+    min-height: 142px !important;
+    flex: 0 0 142px !important;
+    border: 5px solid rgba(255,255,255,.92) !important;
+    box-shadow: 0 9px 26px rgba(0,0,0,.25), 0 0 0 7px rgba(255,255,255,.12);
+  }
+  #profileContent .jos-profile-photo-large {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+  }
+  #profileContent .jos-profile-hero-text {
+    min-width: 0;
+  }
+  #profileContent .jos-profile-kicker {
+    display: inline-block;
+    margin-bottom: 7px;
+    color: #a8eeee !important;
+    font-size: 10px !important;
+    letter-spacing: 2.2px !important;
+  }
+  #profileContent .jos-profile-hero-text h3 {
+    margin: 0 0 7px !important;
+    color: #fff;
+    font-size: 29px !important;
+    line-height: 1.2;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+  }
+  #profileContent .jos-profile-hero-text p {
+    margin: 0 0 14px !important;
+    color: rgba(237,250,252,.84) !important;
+    font-size: 15px !important;
+  }
+  #profileContent .jos-profile-id-pill {
+    padding: 8px 13px !important;
+    color: #fff;
+    background: rgba(255,255,255,.13) !important;
+    border: 1px solid rgba(255,255,255,.30) !important;
+    font-size: 12px !important;
+    font-weight: 700;
+  }
+  #profileContent .jos-profile-photo-status {
+    margin-top: 10px;
+    color: rgba(224,248,248,.72);
+    font-size: 11px;
+  }
+  #profileContent .jos-profile-qr-panel {
+    width: 176px !important;
+    flex: 0 0 176px !important;
+    padding: 12px !important;
+    border: 1px solid rgba(255,255,255,.25) !important;
+    border-radius: 16px !important;
+    background: rgba(255,255,255,.12) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+  }
+  #profileContent .jos-profile-qr-title {
+    color: #e2ffff !important;
+    font-size: 10px !important;
+    letter-spacing: 1.2px !important;
+  }
+  #profileContent .jos-profile-qr {
+    width: 146px !important;
+    height: 146px !important;
+    padding: 7px !important;
+    margin: 8px auto !important;
+    border-radius: 11px !important;
+    background: #fff !important;
+    box-shadow: 0 5px 18px rgba(0,0,0,.13);
+  }
+  #profileContent .jos-profile-qr img,
+  #profileContent .jos-profile-qr canvas {
+    width: 132px !important;
+    height: 132px !important;
+    max-width: 132px !important;
+    max-height: 132px !important;
+  }
+  #profileContent .jos-profile-qr-panel small {
+    color: #d8f4f3 !important;
+    font-size: 8px !important;
+    letter-spacing: 1px;
+  }
+  #profileContent .jos-profile-section-title {
+    margin: 0 0 15px !important;
+    padding-bottom: 12px;
+    color: #123d50 !important;
+    border-bottom: 1px solid #dce9ed;
+    font-size: 16px;
+  }
+  #profileContent .jos-profile-details-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 13px !important;
+  }
+  #profileContent .jos-profile-detail {
+    min-height: 76px;
+    padding: 14px 15px !important;
+    gap: 12px !important;
+    border: 1px solid #e0ebef !important;
+    border-radius: 14px !important;
+    background: linear-gradient(145deg, #fff, #f8fbfc) !important;
+    box-shadow: 0 3px 12px rgba(16, 62, 78, .035);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  #profileContent .jos-profile-detail:hover {
+    transform: translateY(-2px);
+    border-color: #b7dce2 !important;
+    box-shadow: 0 8px 20px rgba(9, 93, 111, .08);
+  }
+  #profileContent .jos-profile-detail-icon {
+    width: 40px !important;
+    height: 40px !important;
+    flex: 0 0 40px !important;
+    border-radius: 12px !important;
+    background: #e5f5f6 !important;
+    color: #087f8c !important;
+    font-size: 15px;
+  }
+  #profileContent .jos-profile-detail small {
+    color: #718591 !important;
+    font-size: 10px !important;
+    font-weight: 700;
+    letter-spacing: .35px;
+    text-transform: uppercase;
+  }
+  #profileContent .jos-profile-detail strong {
+    color: #193b4b !important;
+    font-size: 13px !important;
+    line-height: 1.45;
+  }
+  #profileContent .jos-profile-bottom {
+    margin-top: 18px;
+    padding: 15px 0 0 !important;
+    border-top: 1px solid #e0eaee;
+    color: #718994 !important;
+    font-size: 11px !important;
+  }
+}
+@keyframes josProfileDesktopIn {
+  from { opacity: 0; transform: translateY(10px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (min-width: 801px) and (max-width: 1050px) {
+  #profileContent .jos-profile-details-grid { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+  #profileContent .jos-profile-photo-ring { width: 118px !important; height: 118px !important; min-width:118px !important; min-height:118px !important; flex-basis:118px !important; }
+}
+</style>
+
+
+<style id="jos-notification-visibility-fix">
+/* Notification panel must stay hidden until the user taps the bell. */
+#userDashboard #userNotificationOverlay { display: none !important; position: fixed !important; inset: 0 !important; z-index: 10050 !important; }
+#userDashboard #userNotificationOverlay.active { display: flex !important; }
+#userDashboard #userNotificationOverlay .jos-notification-panel { box-sizing: border-box; }
+</style>
+
+<style id="jos-notification-modal-final-fix">
+/* Final notification modal: rendered above the complete dashboard, never in page flow. */
+#userNotificationOverlay{display:none!important;position:fixed!important;inset:0!important;z-index:2147483000!important;width:100vw!important;height:100dvh!important;box-sizing:border-box!important;padding:18px!important;background:rgba(7,22,34,.62)!important;backdrop-filter:blur(7px)!important;-webkit-backdrop-filter:blur(7px)!important;align-items:center!important;justify-content:center!important;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .22s ease,visibility .22s ease!important}
+#userNotificationOverlay.active{display:flex!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important}
+#userNotificationOverlay .jos-notification-panel{position:relative!important;display:flex!important;flex-direction:column!important;width:min(520px,100%)!important;max-height:min( min(760px, calc(100dvh - 36px)), 92dvh)!important;margin:auto!important;overflow:hidden!important;box-sizing:border-box!important;background:#fff!important;border:1px solid #dce9ed!important;border-radius:24px!important;box-shadow:0 28px 90px rgba(0,20,35,.38)!important;transform:translateY(18px) scale(.97);transition:transform .24s cubic-bezier(.2,.8,.2,1)!important}
+#userNotificationOverlay.active .jos-notification-panel{transform:translateY(0) scale(1)!important}
+#userNotificationOverlay .jos-notification-panel-head{flex:0 0 auto!important;padding:22px 20px 18px!important;background:linear-gradient(135deg,#eafafb 0%,#fff 75%)!important;border-bottom:1px solid #e8eff1!important}
+#userNotificationOverlay .jos-notification-panel-head h2{font-size:24px!important;color:#12394b!important;margin:5px 0 4px!important}
+#userNotificationOverlay .jos-notification-panel-head p{font-size:12px!important;color:#647987!important}
+#userNotificationOverlay .jos-notification-close{width:38px!important;height:38px!important;flex:0 0 38px!important;border-radius:13px!important;background:#fff!important;border:1px solid #dce8eb!important;font-size:25px!important;box-shadow:0 4px 12px rgba(0,40,55,.08)!important}
+#userNotificationOverlay .jos-notification-list{flex:1 1 auto!important;min-height:160px!important;overflow-y:auto!important;padding:14px 16px 18px!important;background:#fbfdfd!important}
+#userNotificationOverlay .jos-notification-state{min-height:230px!important}
+#userNotificationOverlay .jos-notification-panel-foot{flex:0 0 auto!important;padding:13px 16px!important;background:#fff!important;border-top:1px solid #e9eff1!important}
+@media(max-width:600px){#userNotificationOverlay{padding:14px!important}#userNotificationOverlay .jos-notification-panel{width:100%!important;max-height:calc(100dvh - 28px)!important;border-radius:22px!important}#userNotificationOverlay .jos-notification-panel-head{padding:19px 17px 15px!important}#userNotificationOverlay .jos-notification-list{padding:12px!important}}
+@media(prefers-reduced-motion:reduce){#userNotificationOverlay,#userNotificationOverlay .jos-notification-panel{transition:none!important}}
+</style>
+
+
+<style id="jos-notification-management-hard-fix">
+/* JOS Notification Management - isolated layout repair */
+#adminPage section.jos-admin-notification-section{
+  display:block!important; width:100%!important; box-sizing:border-box!important;
+  margin:0 0 24px!important; padding:0!important; overflow:hidden!important;
+  border:1px solid #f0d9dc!important; border-radius:20px!important;
+  background:#fff!important; box-shadow:0 12px 32px rgba(30,41,59,.08)!important;
+  color:#243244!important;
+}
+#adminPage .jos-notice-admin-heading{
+  display:flex!important; flex-direction:row!important; align-items:center!important;
+  gap:15px!important; padding:20px 22px!important; margin:0!important;
+  background:linear-gradient(110deg,#fff4f4,#fff 75%)!important;
+  border:0!important; border-bottom:1px solid #f3e5e7!important;
+}
+#adminPage .jos-notice-admin-heading-icon{
+  display:flex!important; align-items:center!important; justify-content:center!important;
+  flex:0 0 50px!important; width:50px!important; height:50px!important;
+  border-radius:15px!important; background:linear-gradient(145deg,#e3343e,#a71924)!important;
+  color:#fff!important; font-size:21px!important;
+}
+#adminPage .jos-notice-admin-heading-copy{display:block!important; flex:1 1 auto!important; min-width:0!important}
+#adminPage .jos-notice-admin-eyebrow{display:block!important; color:#b4232d!important; font-size:10px!important; font-weight:800!important; letter-spacing:1.3px!important; margin:0 0 4px!important}
+#adminPage .jos-notice-admin-heading-copy h2{display:block!important; margin:0!important; color:#1f2937!important; font-size:21px!important; line-height:1.3!important; font-weight:800!important}
+#adminPage .jos-notice-admin-heading-copy p{display:block!important; margin:5px 0 0!important; color:#667085!important; font-size:13px!important; line-height:1.5!important}
+#adminPage .jos-notice-admin-secure{display:inline-flex!important; align-items:center!important; gap:6px!important; padding:8px 11px!important; border:1px solid #f2c9cd!important; border-radius:30px!important; background:#fff!important; color:#b4232d!important; font-size:10px!important; font-weight:800!important; white-space:nowrap!important}
+#adminPage .jos-notice-admin-info{display:flex!important; align-items:flex-start!important; gap:9px!important; margin:18px 20px 0!important; padding:12px 14px!important; border:1px solid #f3e3c6!important; border-radius:12px!important; background:#fffbf2!important; color:#805b20!important; font-size:12px!important; line-height:1.55!important}
+#adminPage .jos-notice-admin-info i{color:#bd8421!important; margin-top:2px!important}
+#adminPage form#adminNotificationForm.jos-admin-notification-form{
+  display:grid!important; grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  align-items:start!important; gap:17px!important; width:100%!important;
+  box-sizing:border-box!important; margin:0!important; padding:20px!important;
+  border:0!important; background:#fff!important;
+}
+#adminPage #adminNotificationForm .jos-notice-field{
+  display:flex!important; flex-direction:column!important; align-items:stretch!important;
+  gap:8px!important; min-width:0!important; width:100%!important; margin:0!important;
+  color:#344054!important; font-size:12px!important; font-weight:750!important;
+}
+#adminPage #adminNotificationForm .jos-notice-field>span{
+  display:flex!important; align-items:center!important; gap:8px!important;
+  color:#344054!important; font-size:12px!important; font-weight:800!important;
+}
+#adminPage #adminNotificationForm .jos-notice-field>span i{width:17px!important; color:#c52b36!important; text-align:center!important}
+#adminPage #adminNotificationForm input,
+#adminPage #adminNotificationForm select,
+#adminPage #adminNotificationForm textarea{
+  display:block!important; width:100%!important; max-width:100%!important; min-width:0!important;
+  min-height:46px!important; box-sizing:border-box!important; margin:0!important;
+  padding:12px 14px!important; border:1px solid #d8e0e8!important; border-radius:11px!important;
+  background:#fff!important; color:#253244!important; font:500 14px/1.45 inherit!important;
+  box-shadow:0 1px 3px rgba(16,24,40,.04)!important; outline:none!important;
+}
+#adminPage #adminNotificationForm textarea{min-height:135px!important; resize:vertical!important}
+#adminPage #adminNotificationForm input:focus,
+#adminPage #adminNotificationForm select:focus,
+#adminPage #adminNotificationForm textarea:focus{border-color:#dc3545!important; box-shadow:0 0 0 4px rgba(220,53,69,.10)!important}
+#adminPage #adminNotificationForm input::placeholder,
+#adminPage #adminNotificationForm textarea::placeholder{color:#98a2b3!important; opacity:1!important}
+#adminPage #adminNotificationForm .jos-notification-message-field,
+#adminPage #adminNotificationForm .jos-notification-form-actions{grid-column:1/-1!important}
+#adminPage #adminNotificationForm .jos-notification-message-field small{display:block!important; text-align:right!important; color:#98a2b3!important; font-size:11px!important; margin-top:2px!important}
+#adminPage #adminNotificationForm #adminNotificationUserWrap.hidden{display:none!important}
+#adminPage #adminNotificationForm .jos-notification-form-actions{
+  display:flex!important; flex-direction:row!important; align-items:center!important;
+  justify-content:space-between!important; gap:14px!important; flex-wrap:wrap!important;
+  margin:0!important; padding:16px 0 0!important; border:0!important;
+  border-top:1px solid #edf0f2!important;
+}
+#adminPage .jos-notice-status-wrap{display:flex!important; align-items:flex-start!important; gap:8px!important; flex:1 1 230px!important; min-width:0!important; color:#667085!important; font-size:12px!important; line-height:1.5!important}
+#adminPage .jos-notice-status-wrap i{color:#16a36a!important; margin-top:2px!important}
+#adminPage #adminSendNotificationBtn{
+  display:inline-flex!important; align-items:center!important; justify-content:center!important;
+  gap:9px!important; min-width:205px!important; min-height:47px!important; padding:12px 20px!important;
+  border:0!important; border-radius:12px!important; background:linear-gradient(120deg,#b91c1c,#e43d49)!important;
+  color:#fff!important; font-size:13px!important; font-weight:800!important;
+  box-shadow:0 7px 17px rgba(185,28,28,.2)!important; cursor:pointer!important;
+}
+#adminPage #adminSendNotificationBtn:hover{filter:brightness(1.05)!important; transform:translateY(-1px)!important}
+#adminPage #adminSendNotificationBtn:disabled{opacity:.65!important; cursor:wait!important}
+@media(max-width:700px){
+ #adminPage .jos-notice-admin-heading{padding:16px!important; flex-wrap:wrap!important}
+ #adminPage .jos-notice-admin-secure{margin-left:59px!important}
+ #adminPage form#adminNotificationForm.jos-admin-notification-form{grid-template-columns:1fr!important; gap:14px!important; padding:16px!important}
+ #adminPage #adminNotificationForm .jos-notification-message-field,
+ #adminPage #adminNotificationForm .jos-notification-form-actions{grid-column:1!important}
+ #adminPage #adminNotificationForm .jos-notification-form-actions{flex-direction:column!important; align-items:stretch!important}
+ #adminPage #adminSendNotificationBtn{width:100%!important; min-width:0!important}
+ #adminPage .jos-notice-admin-info{margin:14px 14px 0!important}
+}
 </style>
 
 </head>
@@ -4309,70 +4763,32 @@ img, picture, svg {
         <div id="loginCard" class="auth-card professional-auth-card">
 
           <form id="loginForm">
-
-            <!-- Account Type -->
-            <div class="account-type-title">
-              <span>Login As</span>
-            </div>
-
-            <div class="login-type-buttons">
-
-              <button
-                type="button"
-                class="login-type-btn"
-                data-type="user"
-                id="userLoginBtn">
-
-                <i class="fa-solid fa-user"><image src="https://cdn-icons-png.magnific.com/256/9159/9159776.png?semt=ais_white_label" height="30px"></image></i>
-
-                <span>
-                  <strong>User</strong>
-                  <small>User Account</small>
-                </span>
-
+            <!-- User / Admin login selector -->
+            <input type="hidden" id="loginType" value="user">
+            <div class="jos-account-switch" role="group" aria-label="Account type">
+              <button type="button" id="userLoginBtn" class="jos-account-option active">
+                <i class="fa-solid fa-user"></i><span><strong>User Login</strong><small>User Dashboard</small></span>
               </button>
-
-
-              <button
-                type="button"
-                class="login-type-btn active"
-                data-type="admin"
-                id="adminLoginBtn">
-
-                <i class="fa-solid fa-user-shield"><image src="https://png.pngtree.com/png-vector/20221125/ourmid/pngtree-host-and-admin-marketing-job-vacancies-vector-png-image_6480101.png" height="30px "></i>
-
-                <span>
-                  <strong>Admin</strong>
-                  <small>Admin Panel</small>
-                </span>
-
+              <button type="button" id="adminLoginBtn" class="jos-account-option">
+                <i class="fa-solid fa-shield-halved"></i><span><strong>Admin Login</strong><small>Control Panel</small></span>
               </button>
-
             </div>
-
-
-            <!-- Hidden login type -->
-            <select id="loginType" hidden>
-              <option value="admin" selected>Admin</option>
-            </select>
-
-
             <!-- Login ID -->
             <div class="modern-input-group">
 
               <label for="loginId">
                 <i class="fa-solid fa-id-card"></i>
-                Profile ID / Mobile
+                Profile ID / User ID
               </label>
 
               <div class="modern-input">
 
-                <i class="fa-solid fa-user"><image src="https://cdn-icons-gif.flaticon.com/11255/11255995.gif" style="width: 70%"></i>
+                <i class="fa-solid fa-user"></i>
 
                 <input
                   type="text"
                   id="loginId"
-                  placeholder="JANA10001 / Mobile Number"
+                  placeholder="আপনার User Profile ID দিন"
                   autocomplete="username"
                   required>
 
@@ -4391,7 +4807,7 @@ img, picture, svg {
 
               <div class="modern-input">
 
-                <i class="fa-solid fa-key"><image src="https://cdn-icons-gif.flaticon.com/19027/19027984.gif" style="width: 70%"></image></i>
+                <i class="fa-solid fa-key"></i>
 
                 <input
                   type="password"
@@ -4537,6 +4953,21 @@ img, picture, svg {
               </div>
             </div>
 
+
+            <!-- Profile Photo -->
+            <div class="modern-input-group">
+              <label for="regPhoto">Profile Photo (Optional)</label>
+              <div class="jos-photo-upload">
+                <img id="regPhotoPreview" alt="Profile photo preview"
+                     src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='48' fill='%23e8eef7'/%3E%3Ccircle cx='48' cy='35' r='17' fill='%2394a3b8'/%3E%3Cpath d='M16 88c3-19 15-29 32-29s29 10 32 29' fill='%2394a3b8'/%3E%3C/svg%3E">
+                <div class="jos-photo-upload-info">
+                  <strong>Upload your profile picture</strong>
+                  <small>JPG, PNG or WEBP · Maximum 2 MB</small>
+                  <input type="file" id="regPhoto" accept="image/jpeg,image/png,image/webp">
+                  <small id="regPhotoStatus">No photo selected</small>
+                </div>
+              </div>
+            </div>
 
             <!-- Designation -->
             <div class="modern-input-group">
@@ -4806,6 +5237,679 @@ img, picture, svg {
      USER DASHBOARD
 ===================================================== -->
 
+<section
+  id="userDashboard"
+  class="dashboard hidden"
+>
+
+  <!-- USER NOTIFICATION CENTER -->
+  <div class="jos-notification-overlay" id="userNotificationOverlay" aria-hidden="true">
+    <section class="jos-notification-panel" role="dialog" aria-modal="true" aria-labelledby="josNotificationHeading">
+      <header class="jos-notification-panel-head">
+        <div><span class="jos-notification-kicker">JOS UPDATE CENTER</span><h2 id="josNotificationHeading">Notifications</h2><p>Admin-এর পাঠানো গুরুত্বপূর্ণ বার্তা</p></div>
+        <button type="button" class="jos-notification-close" onclick="closeUserNotifications()" aria-label="Close">×</button>
+      </header>
+      <div id="userNotificationsList" class="jos-notification-list"><div class="jos-notification-empty">Notification loading...</div></div>
+      <footer class="jos-notification-panel-foot"><span>Jana Online Service</span><button type="button" class="btn btn-light" onclick="loadUserNotifications()">↻ Refresh</button></footer>
+    </section>
+  </div>
+
+  <!-- PROFESSIONAL USER TOP BAR + MENU -->
+
+  <header class="topbar user-topbar">
+    <div class="user-brand-wrap">
+      <button type="button" class="user-menu-toggle" id="userMenuToggle" aria-label="Open dashboard menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      <div class="user-brand-mark" aria-label="JOS">JOS</div>
+      <div class="user-brand-text">
+        <div class="brand">Jana <span>Online Service</span></div>
+        <small>Professional Service Dashboard</small>
+      </div>
+    </div>
+
+    <nav class="user-nav" id="userNav" aria-label="User Dashboard Menu">
+      <button type="button" class="user-nav-item active" data-user-nav="home"><i class="fa-solid fa-house"></i><span>Home</span></button>
+      <button type="button" class="user-nav-item" data-user-nav="my-services"><i class="fa-solid fa-layer-group"></i><span>My Services</span></button>
+      <button type="button" class="user-nav-item" data-user-nav="online-services"><i class="fa-solid fa-globe"></i><span>Online Services</span></button>
+      <button type="button" class="user-nav-item" data-user-nav="profile"><i class="fa-solid fa-user"></i><span>My Profile</span></button>
+      <button type="button" class="user-nav-item" data-user-nav="id-card"><i class="fa-solid fa-id-card"></i><span>ID Card</span></button>
+      <button type="button" class="user-nav-item user-nav-logout" data-user-nav="logout"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></button>
+    </nav>
+
+    <div class="top-actions">
+      <button type="button" class="jos-notification-bell" id="userNotificationBtn" title="Notifications" aria-label="Notifications">
+        <i class="fa-solid fa-bell"></i><span class="jos-notification-count" id="userNotificationCount" hidden>0</span>
+      </button>
+      <button class="btn btn-light user-status-quick" id="idCardQuickBtn" title="ID Card"><i class="fa-solid fa-id-card"></i><span>ID Card</span></button>
+      <button type="button" class="profile-btn" id="userProfileBtn" title="My Profile" aria-label="My Profile"><span class="profile-avatar-fallback">U</span></button>
+      <button class="btn btn-danger user-logout-quick" id="userLogoutBtn"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></button>
+    </div>
+  </header>
+
+
+  <!-- MOBILE APP BOTTOM NAVIGATION -->
+  <nav class="jos-bottom-app-nav" id="josBottomAppNav" aria-label="Quick dashboard navigation">
+
+  <button type="button" class="jos-bottom-nav-item active" data-user-nav="home" aria-label="Home">
+    <i class="fa-solid fa-house-chimney"></i>
+    <span>Home</span>
+  </button>
+
+  <button type="button" class="jos-bottom-nav-item" data-user-nav="my-services" aria-label="My Services">
+    <i class="fa-solid fa-briefcase"></i>
+    <span>My Services</span>
+  </button>
+
+  <button type="button" class="jos-bottom-nav-item" data-user-nav="online-services" aria-label="Online Services">
+    <i class="fa-solid fa-globe"></i>
+    <span>Online</span>
+  </button>
+
+  <button type="button" class="jos-bottom-nav-item" data-user-nav="profile" aria-label="My Profile">
+    <i class="fa-solid fa-circle-user"></i>
+    <span>Profile</span>
+  </button>
+
+  <button type="button" class="jos-bottom-nav-item" data-user-nav="id-card" aria-label="ID Card">
+    <i class="fa-solid fa-id-card"></i>
+    <span>ID Card</span>
+  </button>
+
+</nav>
+
+  <!-- USER BANNER -->
+
+<div class="user-banner">
+
+    <div class="banner-inner">
+
+      <h1 id="welcomeUser">
+        Welcome
+      </h1>
+
+      <p id="welcomeOffice">
+        আপনার Dashboard
+      </p>
+
+    </div>
+
+  </div>
+ 
+ 
+
+  <!-- NOTICE -->
+
+  <div class="notice-bar">
+
+    <div class="notice-label">
+      <span>📢</span>
+      <span>NOTICE</span>
+    </div>
+
+    <div class="notice-content">
+
+      <div class="notice-track">
+
+ <span class="notice-item">
+⚠️ গুরুত্বপূর্ণ: Jana Online Service একটি ব্যক্তিগত Online Service Platform। এখানে সরকারি ও বেসরকারি পোর্টালের Direct Work Page-এ সহজে প্রবেশের সুবিধা দেওয়া হয়। এটি কোনো সরকারি website বা সরকারি সুবিধা প্রদানকারী প্রতিষ্ঠান নয়। আমাদের Premium Tools ও Special Services আমাদের নিজস্ব পরিষেবা।  </span>
+
+
+        <span class="notice-item">
+          🔔 Welcome to Jana Online Service
+        </span>
+
+        <span class="notice-item">
+          🆕 নতুন অনলাইন সার্ভিস এখন উপলব্ধ
+          <b>NEW</b>
+        </span>
+
+     
+
+        <span class="notice-item">
+          📞 For any help, contact us
+        </span>
+
+        <span class="notice-item">
+          🔔 Welcome to Jana Online Service
+        </span>
+
+        <span class="notice-item">
+          🆕 নতুন অনলাইন সার্ভিস এখন উপলব্ধ
+          <b>NEW</b>
+        </span>
+
+        <span class="notice-item">
+          💻 All Digital Services Available Here
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       ADMIN ASSIGNED SERVICES
+  
+  <!-- =================================================
+       COMMON ONLINE SERVICES
+       এই অংশ সব User-এর জন্য
+       Admin Assignment প্রয়োজন নেই
+  ================================================= -->
+
+  <section
+    id="commonOnlineServices"
+    class="common-service-section"
+  >
+
+    <div class="common-service-container">
+
+
+      <div class="common-service-header">
+
+        <div class="common-service-badge">
+          ⚡ Online Service Center
+        </div>
+
+        <h2>
+          Jana Online <span>Services</span>
+        </h2>
+
+        <p>
+          আপনার প্রয়োজনীয় Online ও Digital Services
+          এক জায়গায়। Service-এ ক্লিক করে প্রয়োজনীয়
+          option নির্বাচন করুন।
+        </p>
+
+      </div>
+
+
+
+<!-- ==================================================
+     JOS THREE SERVICE CARDS + FULL SCREEN IFRAME
+================================================== -->
+
+<div class="jos-action-grid">
+
+  <!-- SERVICE UPDATE -->
+  <button type="button" class="jos-action-card service-card"
+    onclick="openMyIframePage('service')">
+    <span class="jos-action-icon">
+      <i class="fa-solid fa-bullhorn"></i>
+    </span>
+    <strong>Service Update</strong>
+    <small>New services & updates</small>
+    <span class="jos-action-arrow">
+      <i class="fa-solid fa-arrow-up-right-from-square"></i>
+    </span>
+  </button>
+
+  <!-- TYPING MASTER -->
+  <button type="button" class="jos-action-card typing-card"
+    onclick="openMyIframePage('typing')">
+    <span class="jos-action-icon">
+      <i class="fa-solid fa-keyboard"></i>
+    </span>
+    <strong>Typing Master</strong>
+    <small>Improve typing skills</small>
+    <span class="jos-action-arrow">
+      <i class="fa-solid fa-arrow-up-right-from-square"></i>
+    </span>
+  </button>
+
+  <!-- SHOPPING -->
+  <button type="button" class="jos-action-card shopping-card"
+    onclick="openMyIframePage('shopping')">
+    <span class="jos-action-icon">
+      <i class="fa-solid fa-bag-shopping"></i>
+    </span>
+    <strong>Shopping</strong>
+    <small>Explore products</small>
+    <span class="jos-action-arrow">
+      <i class="fa-solid fa-arrow-up-right-from-square"></i>
+    </span>
+  </button>
+
+  <!-- PHOTO CROP & PRINT -->
+  <button type="button" class="jos-action-card photo-card"
+    onclick="openMyIframePage('photo')">
+    <span class="jos-action-icon">
+      <i class="fa-solid fa-crop-simple"></i>
+    </span>
+    <strong>Photo Crop &amp; Print</strong>
+    <small>Crop, resize &amp; print photos</small>
+    <span class="jos-action-arrow">
+      <i class="fa-solid fa-arrow-up-right-from-square"></i>
+    </span>
+  </button>
+
+  <!-- IMAGE COMPOSER -->
+  <button type="button" class="jos-action-card composer-card"
+    onclick="openMyIframePage('composer')">
+    <span class="jos-action-icon">
+      <i class="fa-solid fa-images"></i>
+    </span>
+    <strong>Image Composer</strong>
+    <small>Create &amp; combine images</small>
+    <span class="jos-action-arrow">
+      <i class="fa-solid fa-arrow-up-right-from-square"></i>
+    </span>
+  </button>
+
+  <!-- MONEY CALCULATION -->
+  <button type="button" class="jos-action-card money-card"
+    onclick="openMyIframePage('money')">
+    <span class="jos-action-icon">
+      <i class="fa-solid fa-calculator"></i>
+    </span>
+    <strong>Money Calculation</strong>
+    <small>Quick money calculations</small>
+    <span class="jos-action-arrow">
+      <i class="fa-solid fa-arrow-up-right-from-square"></i>
+    </span>
+  </button>
+
+</div>
+
+
+<!-- ==================================================
+     THREE CARD CSS
+================================================== -->
+
+<style>
+.jos-action-grid {
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin:15px 0;
+  box-sizing:border-box;
+}
+
+.jos-action-card {
+  position:relative;
+  min-width:0;
+  min-height:135px;
+  padding:14px 8px;
+  border:1px solid #eeeeee;
+  border-radius:16px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  cursor:pointer;
+  font-family:system-ui,-apple-system,sans-serif;
+  transition:transform .2s ease,box-shadow .2s ease;
+  -webkit-tap-highlight-color:transparent;
+  appearance:none;
+}
+
+.jos-action-card:active {
+  transform:scale(.96);
+}
+
+.jos-action-icon {
+  width:43px;
+  height:43px;
+  border-radius:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+}
+
+.jos-action-card strong {
+  font-size:12px;
+  font-weight:800;
+  color:#252525;
+  text-align:center;
+  line-height:1.3;
+}
+
+.jos-action-card small {
+  font-size:9px;
+  color:#777;
+  text-align:center;
+  line-height:1.3;
+}
+
+.jos-action-arrow {
+  position:absolute;
+  top:9px;
+  right:9px;
+  font-size:10px;
+  opacity:.65;
+}
+
+/* RED */
+.service-card {
+  background:linear-gradient(145deg,#fff5f5,#ffffff);
+  border-color:#f5dada;
+}
+.service-card .jos-action-icon {
+  background:#fee2e2;
+  color:#dc2626;
+}
+.service-card .jos-action-arrow {color:#dc2626;}
+
+/* BLUE */
+.typing-card {
+  background:linear-gradient(145deg,#eff6ff,#ffffff);
+  border-color:#dbeafe;
+}
+.typing-card .jos-action-icon {
+  background:#dbeafe;
+  color:#2563eb;
+}
+.typing-card .jos-action-arrow {color:#2563eb;}
+
+/* GREEN */
+.shopping-card {
+  background:linear-gradient(145deg,#ecfdf5,#ffffff);
+  border-color:#d1fae5;
+}
+.shopping-card .jos-action-icon {
+  background:#d1fae5;
+  color:#059669;
+}
+.shopping-card .jos-action-arrow {color:#059669;}
+
+/* PURPLE - PHOTO CROP & PRINT */
+.photo-card {
+  background:linear-gradient(145deg,#f5f3ff,#ffffff);
+  border-color:#ddd6fe;
+}
+.photo-card .jos-action-icon {
+  background:#ede9fe;
+  color:#7c3aed;
+}
+.photo-card .jos-action-arrow {color:#7c3aed;}
+
+/* ORANGE - IMAGE COMPOSER */
+.composer-card {
+  background:linear-gradient(145deg,#fff7ed,#ffffff);
+  border-color:#fed7aa;
+}
+.composer-card .jos-action-icon {
+  background:#ffedd5;
+  color:#ea580c;
+}
+.composer-card .jos-action-arrow {color:#ea580c;}
+
+/* TEAL - MONEY CALCULATION */
+.money-card {
+  background:linear-gradient(145deg,#ecfeff,#ffffff);
+  border-color:#a5f3fc;
+}
+.money-card .jos-action-icon {
+  background:#cffafe;
+  color:#0891b2;
+}
+.money-card .jos-action-arrow {color:#0891b2;}
+
+@media(max-width:380px) {
+  .jos-action-grid {gap:7px;}
+  .jos-action-card {
+    min-height:120px;
+    padding:11px 4px;
+  }
+  .jos-action-card strong {font-size:10px;}
+  .jos-action-card small {font-size:8px;}
+}
+
+
+/* ==================================================
+   FULL SCREEN IFRAME VIEWER
+================================================== */
+
+#myIframeViewer {
+  display:none;
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:999999;
+  background:#ffffff;
+  overflow:hidden;
+}
+
+#myIframeFrame {
+  display:block;
+  width:100%;
+  height:100%;
+  border:0;
+  background:#ffffff;
+}
+
+.jos-iframe-close {
+  position:absolute;
+  top:12px;
+  right:12px;
+  z-index:1000000;
+  width:42px;
+  height:42px;
+  border:none;
+  border-radius:12px;
+  background:#dc2626;
+  color:white;
+  font-size:19px;
+  cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.2);
+}
+</style>
+
+
+<!-- ==================================================
+     FULL SCREEN IFRAME HTML
+================================================== -->
+
+<div id="myIframeViewer">
+
+  <button type="button"
+    class="jos-iframe-close"
+    onclick="closeMyIframePage()"
+    aria-label="Close iframe">
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+
+  <iframe
+    id="myIframeFrame"
+    src="about:blank"
+    title="JOS Service Viewer"
+    allowfullscreen>
+  </iframe>
+
+</div>
+
+
+<!-- ==================================================
+     JAVASCRIPT - THREE PAGE NAVIGATION
+================================================== -->
+
+<script>
+
+(function() {
+
+  /* THREE DIFFERENT PAGE LINKS */
+  const pageLinks = {
+    service:
+      "https://suman9907bit.github.io/updateservice-fjdgjfdsjgkjfgkjfkdgk/",
+
+    typing:
+      "https://suman9907bit.github.io/typingtestkdljufgijdhighjdfsjgijdgifdj/",
+
+    shopping:
+      "https://suman9907bit.github.io/ecomlivefgfgfgdgfvvxcchfgfty/",
+
+    /* নিচের তিনটি জায়গায় আপনার নতুন পেজের URL বসাবেন */
+    photo: "https://suman9907bit.github.io/photocrop-djkhfjdhfjdjg/",
+    composer: "https://suman9907bit.github.io/image-compose/",
+    money: "https://suman9907bit.github.io/Manycalculator/"
+  };
+
+
+  /* OPEN SELECTED PAGE */
+  window.openMyIframePage = function(option) {
+
+    const viewer = document.getElementById("myIframeViewer");
+    const frame = document.getElementById("myIframeFrame");
+
+    if (!viewer || !frame) {
+      alert("Iframe viewer HTML পাওয়া যায়নি!");
+      return;
+    }
+
+    const pageURL = pageLinks[option];
+
+    if (!pageURL) {
+      alert("Invalid page selection!");
+      return;
+    }
+
+    /* SHOW VIEWER */
+    viewer.style.display = "block";
+
+    /* STOP BACKGROUND SCROLL */
+    document.body.style.overflow = "hidden";
+
+    /* LOAD SELECTED WEBSITE */
+    frame.src = pageURL;
+
+  };
+
+
+  /* CLOSE IFRAME */
+  window.closeMyIframePage = function() {
+
+    const viewer = document.getElementById("myIframeViewer");
+    const frame = document.getElementById("myIframeFrame");
+
+    if (!viewer || !frame) return;
+
+    viewer.style.display = "none";
+
+    /* RESET IFRAME */
+    frame.src = "about:blank";
+
+    /* RESTORE SCROLL */
+    document.body.style.overflow = "";
+
+  };
+
+
+  /* ESC KEY CLOSE */
+  document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+
+      const viewer = document.getElementById("myIframeViewer");
+
+      if (viewer && viewer.style.display !== "none") {
+        window.closeMyIframePage();
+      }
+
+    }
+
+  });
+
+})();
+
+</script>
+
+
+
+
+
+
+
+
+<!-- FULL SCREEN IFRAME -->
+<div
+  id="myIframeViewer"
+  style="
+    display:none;
+    position:fixed;
+    inset:0;
+    width:100vw;
+    height:100vh;
+    background:#fff;
+    z-index:999999;
+  "
+>
+
+  <!-- CLOSE BUTTON -->
+  <button
+    type="button"
+    onclick="closeMyIframePage()"
+    style="
+      position:absolute;
+      top:10px;
+      right:10px;
+      z-index:1000000;
+      width:42px;
+      height:42px;
+      border:none;
+      border-radius:50%;
+      background:rgba(0,0,0,.75);
+      color:#fff;
+      font-size:25px;
+      line-height:42px;
+      cursor:pointer;
+    "
+    aria-label="Close"
+  >×</button>
+
+  <!-- IFRAME -->
+  <iframe
+    id="myIframeFrame"
+    src="about:blank"
+    style="
+      display:block;
+      width:100%;
+      height:100%;
+      border:0;
+      margin:0;
+      padding:0;
+    "
+    allow="camera; microphone; geolocation; payment"
+    allowfullscreen
+    loading="eager"
+  ></iframe>
+
+</div>
+
+
+
+
+   
+
+
+   
+
+</section>
+
+
+
+
+
+  <!-- EXISTING ASSIGNED SERVICES -->
+  <div
+    id="userServices"
+    class="service-grid"
+  ></div>
+
+
+
+
+</section>
+
+
+
+
+  
+  
+
 <!-- =====================================================
      ADMIN PANEL
 ===================================================== -->
@@ -4860,6 +5964,28 @@ img, picture, svg {
 
     </div>
 
+
+    <!-- NOTIFICATION MANAGEMENT -->
+    <section class="admin-section jos-admin-notification-section" aria-labelledby="josAdminNoticeTitle">
+      <div class="jos-notice-admin-heading">
+        <div class="jos-notice-admin-heading-icon"><i class="fa-solid fa-bell"></i></div>
+        <div class="jos-notice-admin-heading-copy">
+          <span class="jos-notice-admin-eyebrow">JOS COMMUNICATION CENTRE</span>
+          <h2 id="josAdminNoticeTitle">Notification Management</h2>
+          <p>সকল User অথবা নির্দিষ্ট User ID-তে গুরুত্বপূর্ণ Notification পাঠান।</p>
+        </div>
+        <span class="jos-notice-admin-secure"><i class="fa-solid fa-shield-halved"></i> ADMIN ONLY</span>
+      </div>
+      <div class="jos-notice-admin-info"><i class="fa-solid fa-circle-info"></i><span>বার্তা পাঠানোর আগে Title, Type, Recipient এবং Message ভালোভাবে যাচাই করুন।</span></div>
+      <form id="adminNotificationForm" class="jos-admin-notification-form">
+        <label class="jos-notice-field"> <span><i class="fa-solid fa-heading"></i> Notification Title</span><input id="adminNotificationTitle" type="text" maxlength="100" placeholder="যেমন: Important Update" required></label>
+        <label class="jos-notice-field"><span><i class="fa-solid fa-tag"></i> Notification Type</span><select id="adminNotificationType"><option value="General">General</option><option value="Important">Important</option><option value="Update">Update</option><option value="Alert">Alert</option></select></label>
+        <label class="jos-notice-field"><span><i class="fa-solid fa-users"></i> Send To</span><select id="adminNotificationTarget"><option value="all">All Users</option><option value="specific">Specific User ID</option></select></label>
+        <label id="adminNotificationUserWrap" class="jos-notice-field hidden"><span><i class="fa-solid fa-id-card"></i> Recipient User ID</span><input id="adminNotificationUserId" type="text" maxlength="60" placeholder="Enter exact User ID"></label>
+        <label class="jos-notice-field jos-notification-message-field"><span><i class="fa-solid fa-message"></i> Message</span><textarea id="adminNotificationMessage" rows="5" maxlength="1500" placeholder="এখানে Notification-এর বিস্তারিত Message লিখুন..." required></textarea><small>সর্বোচ্চ 1500 characters</small></label>
+        <div class="jos-notification-form-actions"><div class="jos-notice-status-wrap"><i class="fa-solid fa-circle-check"></i><span id="adminNotificationStatus">Notification পাঠানোর আগে তথ্য যাচাই করুন।</span></div><button class="btn btn-primary" id="adminSendNotificationBtn" type="submit"><i class="fa-solid fa-paper-plane"></i> Send Notification</button></div>
+      </form>
+    </section>
 
     <!-- STATS -->
 
@@ -4965,6 +6091,79 @@ img, picture, svg {
 
 
 
+<!-- JOS USER ID CARD -->
+<div class="jos-idcard-overlay" id="userIdCardOverlay" aria-hidden="true"><div class="jos-idcard-shell">
+<div class="jos-idcard-toolbar"><div><strong><i class="fa-solid fa-id-card"></i> User Identity Card</strong><small>Generated from your JOS account information</small></div><button type="button" class="jos-idcard-close" onclick="closeUserIdCard()">×</button></div>
+<div class="jos-idcard" id="josPrintableIdCard"><div class="jos-idcard-head"><div class="jos-idcard-logo">JOS</div><div><h2>JANA ONLINE SERVICE</h2><p>DIGITAL SERVICE IDENTITY CARD</p></div><div class="jos-idcard-chip">USER</div></div>
+<div class="jos-idcard-main"><div class="jos-idcard-avatar" id="josIdCardAvatar"><i class="fa-solid fa-user"></i></div><div class="jos-idcard-details" id="josIdCardDetails"></div></div>
+<div class="jos-idcard-barcode-wrap"><svg id="josUserBarcode" aria-label="JOS member ID barcode"></svg><div class="jos-idcard-code" id="josIdCardCode"></div><small class="jos-qr-caption">JOS MEMBER ID · CODE 128</small></div><div class="jos-idcard-foot"><span>User Identity</span><span>Jana Online Service</span></div></div>
+<div class="jos-idcard-actions"><button type="button" class="btn btn-light" onclick="closeUserIdCard()">Close</button><button type="button" class="btn btn-primary" onclick="printUserIdCard()"><i class="fa-solid fa-print"></i> Print ID Card</button></div>
+</div></div>
+<style>
+
+.jos-idcard-overlay{display:none;position:fixed;inset:0;z-index:12000;background:#081927b8;backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:16px;overflow:auto}.jos-idcard-overlay.active{display:flex}.jos-idcard-shell{width:min(100%,620px);max-height:96vh;overflow:auto;background:#fff;border-radius:20px;padding:18px;box-shadow:0 25px 80px #001b2b55}.jos-idcard-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;color:#183746}.jos-idcard-toolbar strong{display:block;font-size:17px}.jos-idcard-toolbar small{display:block;color:#71818b;margin-top:4px;font-size:11px}.jos-idcard-close{border:0;background:#fff0f0;color:#c62828;width:38px;height:38px;border-radius:50%;font-size:25px}
+.jos-idcard{width:100%;max-width:520px;margin:auto;border:1px solid #d9e3e8;border-radius:17px;overflow:hidden;background:linear-gradient(145deg,#fff,#f2fafc);color:#183746}.jos-idcard-head{display:flex;align-items:center;gap:12px;padding:17px 19px;background:linear-gradient(115deg,#073b59,#087f8c);color:#fff}.jos-idcard-logo{width:48px;height:48px;border-radius:13px;background:#fff;color:#087f8c;display:grid;place-items:center;font-weight:900;font-size:18px}.jos-idcard-head h2{font-size:17px}.jos-idcard-head p{font-size:9px;letter-spacing:1.2px;margin-top:4px}.jos-idcard-chip{margin-left:auto;border:1px solid #ffffff66;border-radius:20px;padding:5px 10px;font-size:10px;font-weight:800}.jos-idcard-main{display:grid;grid-template-columns:82px 1fr;gap:14px;padding:18px 18px 10px}.jos-idcard-avatar{width:78px;height:88px;border-radius:12px;background:#e3f2f5;color:#087f8c;display:grid;place-items:center;font-size:34px;border:1px solid #cde4e8}.jos-idcard-details{display:grid;grid-template-columns:1fr 1fr;gap:9px 13px;align-content:start}.jos-id-field{min-width:0}.jos-id-field small{display:block;color:#71818b;font-size:9px;text-transform:uppercase;margin-bottom:3px}.jos-id-field strong{display:block;font-size:12px;overflow-wrap:anywhere}.jos-id-field.wide{grid-column:1/-1}.jos-idcard-barcode-wrap{margin:6px 18px 12px;padding:8px 10px 5px;border-top:1px dashed #cbd9df;text-align:center}.jos-idcard-barcode-wrap svg{width:100%;max-width:340px;height:65px}.jos-idcard-code{font-size:11px;letter-spacing:2px;font-weight:800}.jos-idcard-foot{display:flex;justify-content:space-between;padding:10px 18px;background:#eaf5f7;color:#53717d;font-size:9px;font-weight:700;text-transform:uppercase}.jos-idcard-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+@media(max-width:480px){.jos-idcard-shell{padding:12px}.jos-idcard-head{padding:13px;gap:9px}.jos-idcard-logo{width:40px;height:40px}.jos-idcard-head h2{font-size:13px}.jos-idcard-main{grid-template-columns:65px 1fr;padding:14px 11px 9px;gap:9px}.jos-idcard-avatar{width:62px;height:72px;font-size:27px}.jos-id-field strong{font-size:10px}.jos-idcard-foot{padding:9px 11px}.jos-idcard-actions .btn{flex:1}}
+.jos-profile-hero{display:flex;align-items:center;gap:18px;padding:20px;border-radius:18px;background:linear-gradient(120deg,#073b59,#087f8c);color:#fff;margin-bottom:20px}.jos-profile-photo-ring{width:104px;height:104px;flex:0 0 104px;border:4px solid #ffffffb8;border-radius:50%;overflow:hidden;background:#e8f2f5;display:grid;place-items:center}.jos-profile-photo-large{width:100%;height:100%;object-fit:cover;border-radius:50%}.jos-profile-hero-text h3{margin:5px 0;font-size:21px}.jos-profile-hero-text p{margin:0 0 9px;color:#d5edf1;font-size:13px}.jos-profile-kicker{font-size:9px;letter-spacing:1.8px;font-weight:800;color:#b9e9e9}.jos-profile-id-pill{display:inline-flex;gap:6px;align-items:center;background:#ffffff20;border:1px solid #ffffff55;border-radius:20px;padding:5px 10px;font-size:11px}.jos-profile-section-title{font-weight:800;color:#173b4b;margin:16px 0 12px;display:flex;gap:9px;align-items:center}.jos-profile-details-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.jos-profile-detail{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #e1eaf0;background:linear-gradient(135deg,#fff,#f7fafc);border-radius:12px;min-width:0}.jos-profile-detail-icon{width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;border-radius:10px;background:#e5f3f5;color:#087f8c}.jos-profile-detail small{display:block;color:#71818b;font-size:10px;margin-bottom:3px}.jos-profile-detail strong{display:block;color:#203b49;font-size:12px;overflow-wrap:anywhere}.jos-profile-bottom{display:flex;gap:8px;align-items:center;justify-content:center;color:#66808b;font-size:10px;padding:16px 5px 3px}.jos-user-qr{width:122px;height:122px;padding:5px;background:#fff;border:1px solid #d8e4e8;border-radius:10px;margin:auto;display:grid;place-items:center}.jos-user-qr img,.jos-user-qr canvas{max-width:112px;max-height:112px}.jos-qr-caption{display:block;color:#607985;font-size:8px;letter-spacing:1.4px;margin-top:5px}.jos-idcard-barcode-wrap{display:flex;flex-direction:column;align-items:center;gap:5px}
+@media(max-width:480px){.jos-profile-hero{padding:14px;gap:12px}.jos-profile-photo-ring{width:78px;height:78px;flex-basis:78px}.jos-profile-hero-text h3{font-size:17px}.jos-profile-details-grid{grid-template-columns:1fr}.jos-profile-detail{padding:10px}}
+
+/* Profile photo + QR: aligned in one professional header panel */
+.jos-profile-hero-v2{justify-content:space-between;gap:14px;min-width:0}
+.jos-profile-person{display:flex;align-items:center;gap:16px;min-width:0;flex:1}
+.jos-profile-photo-ring{overflow:hidden;flex-shrink:0}
+.jos-profile-photo-large{display:block;width:100%;height:100%;object-fit:cover;object-position:center;border-radius:50%}
+.jos-photo-initial{width:100%;height:100%;display:grid;place-items:center;border-radius:inherit;background:linear-gradient(135deg,#dceef2,#ffffff);color:#087f8c;font-size:36px;font-weight:900}
+.jos-profile-qr-panel{width:164px;flex:0 0 164px;padding:10px 8px;border:1px solid #ffffff55;border-radius:14px;background:#ffffff18;text-align:center}
+.jos-profile-qr-title{font-size:9px;font-weight:900;letter-spacing:1.2px;color:#d8f4f3;margin-bottom:7px}
+.jos-profile-qr{width:142px;height:142px;margin:auto;padding:5px;border-radius:9px;background:#fff;display:grid;place-items:center}
+.jos-profile-qr img,.jos-profile-qr canvas{display:block!important;width:132px!important;height:132px!important;max-width:100%}
+.jos-profile-qr-panel small{display:block;margin-top:7px;font-size:8px;letter-spacing:1px;color:#d8f4f3;font-weight:800}
+.jos-qr-error{font-size:10px;color:#9b2525}
+@media(max-width:560px){.jos-profile-hero-v2{align-items:stretch;padding:12px;gap:9px}.jos-profile-person{gap:10px}.jos-profile-photo-ring{width:68px;height:68px;flex-basis:68px}.jos-profile-photo-large{width:100%;height:100%}.jos-profile-hero-text h3{font-size:15px;overflow-wrap:anywhere}.jos-profile-hero-text p{font-size:11px}.jos-profile-qr-panel{width:112px;flex-basis:112px;padding:7px 4px}.jos-profile-qr{width:94px;height:94px;padding:3px}.jos-profile-qr img,.jos-profile-qr canvas{width:88px!important;height:88px!important}.jos-profile-qr-title{font-size:7px}.jos-profile-qr-panel small{font-size:6px}}
+@media(max-width:360px){.jos-profile-hero-v2{flex-direction:column}.jos-profile-qr-panel{width:100%;flex-basis:auto;display:flex;align-items:center;justify-content:center;gap:10px}.jos-profile-qr{margin:0}}
+
+@media print{@page{size:A4;margin:0}body *{visibility:hidden!important}.jos-idcard-overlay,.jos-idcard-overlay *{visibility:visible!important}.jos-idcard-overlay{display:block!important;position:absolute!important;inset:0!important;padding:25mm 15mm!important;background:#fff!important}.jos-idcard-shell{width:100%!important;max-width:none!important;max-height:none!important;overflow:visible!important;padding:0!important;box-shadow:none!important}.jos-idcard-toolbar,.jos-idcard-actions{display:none!important}.jos-idcard{width:86mm!important;max-width:86mm!important;margin:auto!important;break-inside:avoid}}
+
+
+
+/* JOS PROFILE: balanced two-column member panel with QR always on the right */
+.jos-profile-hero-v2{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;gap:16px!important;padding:18px!important;min-height:190px}
+.jos-profile-person{display:flex!important;align-items:center!important;gap:15px!important;flex:1 1 auto!important;min-width:0}
+.jos-profile-photo-ring{width:94px!important;height:94px!important;flex:0 0 94px!important}
+.jos-profile-hero-text{min-width:0}
+.jos-profile-hero-text h3{overflow-wrap:anywhere}
+.jos-profile-qr-panel{width:154px!important;flex:0 0 154px!important;padding:10px!important;background:rgba(255,255,255,.13)!important;border:1px solid rgba(255,255,255,.22)!important;border-radius:15px!important;text-align:center!important}
+.jos-profile-qr{width:126px!important;height:126px!important;padding:5px!important;background:#fff!important;border-radius:10px!important;margin:0 auto!important}
+.jos-profile-qr img,.jos-profile-qr canvas{width:116px!important;height:116px!important;max-width:116px!important;max-height:116px!important;display:block!important}
+.jos-profile-qr-title{display:block!important;color:#e8ffff!important;font-size:9px!important;letter-spacing:1.1px!important;margin:0 0 8px!important}
+.jos-profile-qr-panel small{font-size:8px!important;line-height:1.3!important;margin-top:7px!important;color:#e8ffff!important}
+.jos-idcard-barcode-wrap{display:flex!important;flex-direction:column!important;align-items:center!important;gap:5px!important}
+#josUserBarcode{display:block;width:100%;max-width:340px;height:68px;background:#fff}.jos-barcode-error{font-size:11px;color:#b91c1c;padding:12px}
+.jos-idcard-barcode-wrap .jos-idcard-code{font-size:11px;letter-spacing:2px}
+@media(max-width:560px){
+ .jos-profile-hero-v2{flex-direction:row!important;align-items:center!important;gap:8px!important;padding:12px!important}
+ .jos-profile-person{gap:9px!important;min-width:0}
+ .jos-profile-photo-ring{width:66px!important;height:66px!important;flex-basis:66px!important;border-width:3px!important}
+ .jos-profile-hero-text h3{font-size:14px!important;line-height:1.2}
+ .jos-profile-hero-text p{font-size:10px!important;margin-bottom:6px!important}
+ .jos-profile-kicker{font-size:7px!important;letter-spacing:1px!important}
+ .jos-profile-id-pill{font-size:9px!important;padding:4px 7px!important}
+ .jos-profile-photo-status{font-size:9px!important}
+ .jos-profile-qr-panel{width:104px!important;flex:0 0 104px!important;padding:6px!important}
+ .jos-profile-qr{width:88px!important;height:88px!important;padding:3px!important}
+ .jos-profile-qr img,.jos-profile-qr canvas{width:82px!important;height:82px!important;max-width:82px!important;max-height:82px!important}
+ .jos-profile-qr-title{font-size:6px!important;letter-spacing:.5px!important;margin-bottom:5px!important}
+ .jos-profile-qr-panel small{font-size:6px!important;margin-top:5px!important}
+}
+@media(max-width:360px){
+ .jos-profile-hero-v2{flex-direction:row!important}
+ .jos-profile-photo-ring{width:56px!important;height:56px!important;flex-basis:56px!important}
+ .jos-profile-qr-panel{width:92px!important;flex-basis:92px!important}
+ .jos-profile-qr{width:78px!important;height:78px!important}
+ .jos-profile-qr img,.jos-profile-qr canvas{width:72px!important;height:72px!important;max-width:72px!important;max-height:72px!important}
+}
+</style>
+
 <!-- =====================================================
      PROFILE MODAL
 ===================================================== -->
@@ -4990,7 +6189,6 @@ img, picture, svg {
     </div>
 
     <div class="modal-body">
-     <center> <image src="https://i.pinimg.com/originals/91/7c/06/917c06856035dd3d396b62916d082472.gif"style="width:50%"></center>
       <div
         id="profileContent"
         class="profile-grid"
@@ -5466,100 +6664,6 @@ img, picture, svg {
 
 
 
-<!-- =====================================================
-     COMMON SERVICE MODAL
-===================================================== -->
-
-<div
-  id="commonServiceModal"
-  class="common-service-modal-overlay"
->
-
-  <div class="common-service-modal">
-
-    <div class="common-modal-header">
-
-      <div class="common-modal-title-area">
-
-        <div
-          id="commonModalIcon"
-          class="common-modal-icon"
-        >
-          ⚡
-        </div>
-
-        <div>
-
-          <h3 id="commonModalTitle">
-            Service
-          </h3>
-
-          <p id="commonModalDescription">
-            Select an option
-          </p>
-
-        </div>
-
-      </div>
-
-      <button
-        type="button"
-        id="commonModalClose"
-        class="common-modal-close"
-      >
-        ×
-      </button>
-
-    </div>
-
-
-    <div class="common-modal-body">
-
-      <div class="common-modal-label">
-        Select Service Option
-      </div>
-
-      <div
-        id="commonServiceLinks"
-        class="common-service-links"
-      ></div>
-
-    </div>
-
-
-    <div class="common-modal-footer">
-
-      <div class="common-contact-buttons">
-
-        <a
-          href="#"
-          id="commonCallButton"
-          class="common-call-button"
-        >
-          📞 Call
-        </a>
-
-        <a
-          href="#"
-          id="commonWhatsappButton"
-          class="common-whatsapp-button"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          💬 WhatsApp
-        </a>
-
-      </div>
-
-      <small>
-        Links open in new tab
-      </small>
-
-    </div>
-
-  </div>
-
-</div>
 
 
 
@@ -5614,13 +6718,20 @@ img, picture, svg {
   class="loader"
 >
 
-  <div class="loader-box">
+  <div class="loader-box jos-loader-box">
 
-    <div class="spinner"></div>
+    <div class="jos-loader-brand" aria-label="Jana Online Service loading">
+      <span class="jos-loader-word">JOS</span>
+      <span class="jos-loader-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="jos-loader-line"></div>
 
     <strong id="loaderText">
       Please wait...
     </strong>
+
+    <small class="jos-loader-caption">Jana Online Service</small>
 
   </div>
 
@@ -5808,7 +6919,7 @@ img, picture, svg {
 ============================================================ */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbzYM8ToB_pKlzEx6BZmuKcoABxlBVoeSMNwHBP4SxEtoZoEAiHypmpb9i61b9rsWTHZ/exec";
+"https://script.google.com/macros/s/AKfycbwKtCPxdQtttx7A6TEL6qE-7cWRqzR2ak50TfDS8IKFFH8WViYSLQ8FR8PiZzMRy6Ek/exec";
 
 
 /* ============================================================
@@ -5976,86 +7087,308 @@ document.addEventListener(
 function closeUserMenu(){const nav=$("userNav"),toggle=$("userMenuToggle");if(nav)nav.classList.remove("open");if(toggle)toggle.setAttribute("aria-expanded","false");}
 function toggleUserMenu(){const nav=$("userNav"),toggle=$("userMenuToggle");if(!nav)return;const open=nav.classList.toggle("open");if(toggle)toggle.setAttribute("aria-expanded",open?"true":"false");}
 function setUserNavActive(key){document.querySelectorAll("#userDashboard [data-user-nav]").forEach(function(item){item.classList.toggle("active",item.dataset.userNav===key);});document.querySelectorAll("#josBottomAppNav [data-user-nav]").forEach(function(item){item.classList.toggle("active",item.dataset.userNav===key);});}
-function handleUserNavigation(key){closeUserMenu();if(key==="home"){setUserNavActive("home");window.scrollTo({top:0,behavior:"smooth"});return;}if(key==="my-services"){setUserNavActive("my-services");const el=$("userServices");if(el)el.scrollIntoView({behavior:"smooth",block:"start"});return;}if(key==="online-services"){setUserNavActive("online-services");const el=$("commonOnlineServices");if(el)el.scrollIntoView({behavior:"smooth",block:"start"});return;}if(key==="profile"){setUserNavActive("profile");openUserProfile();return;}if(key==="status"){setUserNavActive("status");refreshUserStatus();return;}if(key==="logout"){setUserNavActive("logout");userLogout();}}
+function handleUserNavigation(key){closeUserMenu();if(key==="home"){setUserNavActive("home");window.scrollTo({top:0,behavior:"smooth"});return;}if(key==="my-services"){setUserNavActive("my-services");const el=$("userServices");if(el)el.scrollIntoView({behavior:"smooth",block:"start"});return;}if(key==="online-services"){setUserNavActive("online-services");const el=$("commonOnlineServices");if(el)el.scrollIntoView({behavior:"smooth",block:"start"});return;}if(key==="profile"){setUserNavActive("profile");openUserProfile();return;}if(key==="id-card"){setUserNavActive("id-card");generateUserIdCard();return;}if(key==="status"){setUserNavActive("status");refreshUserStatus();return;}if(key==="logout"){setUserNavActive("logout");userLogout();}}
 
 /* ============================================================
    EVENTS
 ============================================================ */
 
 function bindEvents(){
-  // The current build is Admin-only, so User Dashboard controls may not exist.
-  // Bind each control independently so one missing optional element cannot stop
-  // later Admin controls (especially Add Service / Save Assignment) from binding.
-  const on = (id, eventName, handler) => {
-    const el = $(id);
-    if (el) el.addEventListener(eventName, handler);
+  initJosNotificationSystem();
+  $("regPhoto")?.addEventListener("change", handleRegistrationPhotoPreview);
+  $("adminUserSearch")?.addEventListener("input",renderAdminUsers);
+  $("adminUserStatusFilter")?.addEventListener("change",renderAdminUsers);
+
+  $("loginForm")
+    .addEventListener(
+      "submit",
+      handleLogin
+    );
+
+
+  $("registerForm")
+    .addEventListener(
+      "submit",
+      handleRegistration
+    );
+
+
+  $("openRegistration")
+    .addEventListener(
+      "click",
+      function(){
+
+        $("loginCard")
+          .classList.add("hidden");
+
+        $("registerCard")
+          .classList.add("active");
+
+      }
+    );
+
+
+  $("backToLogin")
+    .addEventListener(
+      "click",
+      function(){
+
+        $("registerCard")
+          .classList.remove("active");
+
+        $("loginCard")
+          .classList.remove("hidden");
+
+      }
+    );
+
+
+  $("idCardQuickBtn")
+    .addEventListener(
+      "click",
+      function(){
+        setUserNavActive("id-card");
+        closeUserMenu();
+        generateUserIdCard();
+      }
+    );
+
+  $("userMenuToggle")
+    .addEventListener("click", toggleUserMenu);
+
+  document
+    .querySelectorAll("#userDashboard [data-user-nav]")
+    .forEach(function(item){
+      item.addEventListener("click", function(){
+        handleUserNavigation(item.dataset.userNav);
+      });
+    });
+
+  $("userProfileBtn")
+    .addEventListener("click", function(){
+      setUserNavActive("profile");
+      closeUserMenu();
+      openUserProfile();
+    });
+
+  $("userLogoutBtn")
+    .addEventListener("click", function(){
+      closeUserMenu();
+      userLogout();
+    });
+
+
+  $("adminLogoutBtn")
+    .addEventListener(
+      "click",
+      adminLogout
+    );
+
+
+  $("adminRefreshBtn")
+    .addEventListener(
+      "click",
+      loadAdminData
+    );
+
+
+  $("addServiceBtn")
+    .addEventListener(
+      "click",
+      function(){
+
+        $("serviceForm").reset();
+
+        openModal(
+          "serviceModal"
+        );
+
+      }
+    );
+
+
+  $("editUserForm")
+    .addEventListener(
+      "submit",
+      saveEditedUser
+    );
+
+
+  $("serviceForm")
+    .addEventListener(
+      "submit",
+      createService
+    );
+
+
+  $("saveAssignmentsBtn")
+    .addEventListener(
+      "click",
+      saveAssignments
+    );
+
+
+  $("successCloseBtn")
+    .addEventListener(
+      "click",
+      function(){
+
+        closeModal(
+          "successModal"
+        );
+
+        $("registerForm").reset();
+        registrationPhotoData = "";
+        registrationPhotoName = "";
+        if($("regPhotoPreview")) $("regPhotoPreview").src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='48' fill='%23e8eef7'/%3E%3Ccircle cx='48' cy='35' r='17' fill='%2394a3b8'/%3E%3Cpath d='M16 88c3-19 15-29 32-29s29 10 32 29' fill='%2394a3b8'/%3E%3C/svg%3E";
+        if($("regPhotoStatus")) $("regPhotoStatus").textContent = "No photo selected";
+
+        $("registerCard")
+          .classList.remove("active");
+
+        $("loginCard")
+          .classList.remove("hidden");
+
+      }
+    );
+
+
+  document
+    .querySelectorAll("[data-close]")
+    .forEach(function(button){
+
+      button.addEventListener(
+        "click",
+        function(){
+
+          closeModal(
+            button.dataset.close
+          );
+
+        }
+      );
+
+    });
+
+
+  $("viewerClose")
+    .addEventListener(
+      "click",
+      closeServiceViewer
+    );
+
+}
+
+
+/* ============================================================
+   REGISTRATION PHOTO HANDLING
+============================================================ */
+
+let registrationPhotoData = "";
+let registrationPhotoName = "";
+
+function handleRegistrationPhotoPreview(event){
+  const file = event.target.files && event.target.files[0];
+  const preview = $("regPhotoPreview");
+  const status = $("regPhotoStatus");
+
+  registrationPhotoData = "";
+  registrationPhotoName = "";
+
+  if(!file){
+    if(status) status.textContent = "No photo selected";
+    return;
+  }
+
+  if(!["image/jpeg","image/png","image/webp"].includes(file.type)){
+    event.target.value = "";
+    showToast("শুধুমাত্র JPG, PNG অথবা WEBP ছবি দিন।","error");
+    if(status) status.textContent = "Unsupported image format";
+    return;
+  }
+
+  if(file.size > 2 * 1024 * 1024){
+    event.target.value = "";
+    showToast("ছবির Size 2 MB-এর মধ্যে রাখুন।","error");
+    if(status) status.textContent = "Image is larger than 2 MB";
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(){
+    registrationPhotoData = String(reader.result || "");
+    registrationPhotoName = file.name || "profile-photo";
+    if(preview) preview.src = registrationPhotoData;
+    if(status) status.textContent = file.name + " selected";
   };
+  reader.onerror = function(){
+    showToast("ছবি পড়া যায়নি। আবার চেষ্টা করুন।","error");
+  };
+  reader.readAsDataURL(file);
+}
 
-  on("adminUserSearch", "input", renderAdminUsers);
-  on("adminUserStatusFilter", "change", renderAdminUsers);
-  on("loginForm", "submit", handleLogin);
-  on("registerForm", "submit", handleRegistration);
+function getProfilePhotoCandidates(user){
+  if(!user) return [];
+  const urls=[];
+  // Support the common response keys used by Apps Script / Google Sheets.
+  const rawValues=[user.photoUrl,user.photoURL,user.photo,user.imageUrl,user.profilePhoto,user.profilePhotoUrl,user.photoData,user.photoBase64,user.imageData];
+  rawValues.forEach(value=>{
+    if(!value) return;
+    let v=String(value).trim();
+    if(!v) return;
+    // A stored base64 value may arrive without its data-URL prefix.
+    if(/^data:image\//i.test(v) || /^https?:\/\//i.test(v) || /^blob:/i.test(v)) urls.push(v);
+    else if(v.length>100 && /^[A-Za-z0-9+/=\r\n]+$/.test(v)) urls.push('data:image/jpeg;base64,'+v.replace(/\s/g,''));
+  });
+  const raw=String(user.photoUrl||user.photoURL||user.photo||user.imageUrl||user.profilePhotoUrl||'').trim();
+  const fileId=String(user.photoFileId||user.driveFileId||'').trim();
+  const match=raw.match(/[?&]id=([a-zA-Z0-9_-]+)/)||raw.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  const id=fileId||(match?match[1]:'');
+  if(id){
+    urls.unshift('https://drive.google.com/thumbnail?id='+encodeURIComponent(id)+'&sz=w1000');
+    urls.push('https://lh3.googleusercontent.com/d/'+encodeURIComponent(id));
+    urls.push('https://drive.google.com/uc?export=view&id='+encodeURIComponent(id));
+  }
+  return [...new Set(urls)];
+}
 
-  on("openRegistration", "click", function(){
-    const login = $("loginCard"), register = $("registerCard");
-    if (login) login.classList.add("hidden");
-    if (register) register.classList.add("active");
-  });
+function josProfilePhotoFallback(img){
+  try{
+    const urls=JSON.parse(img.getAttribute('data-fallbacks')||'[]');
+    const next=Number(img.getAttribute('data-fallback-index')||0);
+    if(next<urls.length){img.setAttribute('data-fallback-index',String(next+1));img.src=urls[next];return;}
+  }catch(e){}
+  const holder=img.parentElement;
+  const initial=(img.getAttribute('data-fallback-name')||'U').trim().charAt(0).toUpperCase()||'U';
+  if(holder){holder.innerHTML='<span class="jos-photo-initial">'+escapeHTML(initial)+'</span>';}
+}
 
-  on("backToLogin", "click", function(){
-    const register = $("registerCard"), login = $("loginCard");
-    if (register) register.classList.remove("active");
-    if (login) login.classList.remove("hidden");
-  });
+function getProfilePhotoImageMarkup(user, className, extraStyle){
+  const urls=getProfilePhotoCandidates(user);
+  if(!urls.length) return '';
+  const first=urls.shift();
+  return `<img class="${escapeHTML(className||'jos-user-avatar')}" src="${escapeHTML(first)}" data-fallbacks="${escapeHTML(JSON.stringify(urls))}" data-fallback-index="0" data-fallback-name="${escapeHTML(user.name||'U')}" alt="${escapeHTML((user.name||'User')+' profile photo')}" referrerpolicy="no-referrer" style="${escapeHTML(extraStyle||'')}" onerror="josProfilePhotoFallback(this)">`;
+}
 
-  on("statusCheckBtn", "click", function(){
-    setUserNavActive("status");
-    closeUserMenu();
-    refreshUserStatus();
-  });
-  on("userMenuToggle", "click", toggleUserMenu);
+function getUserAvatarMarkup(user, extraClass){
+  const name = user && user.name ? String(user.name).trim() : "U";
+  const initials = escapeHTML(name ? name.charAt(0).toUpperCase() : "U");
+  if(getProfilePhotoCandidates(user).length){
+    return getProfilePhotoImageMarkup(user, "jos-user-avatar " + (extraClass || ""));
+  }
+  return `<span class="jos-user-avatar ${extraClass || ""}">${initials}</span>`;
+}
 
-  document.querySelectorAll("#userDashboard [data-user-nav]").forEach(function(item){
-    item.addEventListener("click", function(){
-      handleUserNavigation(item.dataset.userNav);
-    });
-  });
-
-  on("userProfileBtn", "click", function(){
-    setUserNavActive("profile");
-    closeUserMenu();
-    openUserProfile();
-  });
-  on("userLogoutBtn", "click", function(){
-    closeUserMenu();
-    userLogout();
-  });
-
-  on("adminLogoutBtn", "click", adminLogout);
-  on("adminRefreshBtn", "click", loadAdminData);
-  on("addServiceBtn", "click", function(){
-    const form = $("serviceForm");
-    if (form) form.reset();
-    openModal("serviceModal");
-  });
-  on("editUserForm", "submit", saveEditedUser);
-  on("serviceForm", "submit", createService);
-  on("saveAssignmentsBtn", "click", saveAssignments);
-  on("successCloseBtn", "click", function(){
-    closeModal("successModal");
-    const form = $("registerForm"), register = $("registerCard"), login = $("loginCard");
-    if (form) form.reset();
-    if (register) register.classList.remove("active");
-    if (login) login.classList.remove("hidden");
-  });
-
-  document.querySelectorAll("[data-close]").forEach(function(button){
-    button.addEventListener("click", function(){
-      closeModal(button.dataset.close);
-    });
-  });
-
-  on("viewerClose", "click", closeServiceViewer);
+function renderUserRealPhoto(){
+  if(!currentUser) return;
+  const headerButton = $("userProfileBtn");
+  if(headerButton){
+    headerButton.innerHTML = getUserAvatarMarkup(currentUser, "jos-header-user-photo");
+    headerButton.setAttribute("aria-label", "My Profile");
+    headerButton.title = currentUser.name ? "Profile: " + currentUser.name : "My Profile";
+  }
+  const brandMark = document.querySelector("#userDashboard .user-brand-mark");
+  if(brandMark) brandMark.textContent = "JOS";
 }
 
 /* ============================================================
@@ -6128,7 +7461,9 @@ async function handleRegistration(e){
     userId:
       $("regUserId").value.trim(),
 
-    password
+    password,
+    photoData: registrationPhotoData,
+    photoName: registrationPhotoName
 
   };
 
@@ -6188,109 +7523,55 @@ async function handleRegistration(e){
 ============================================================ */
 
 async function handleLogin(e){
-
   e.preventDefault();
 
-
   const loginType = "admin";
-  $("loginType").value = "admin";
+  if($("loginType")) $("loginType").value = "admin";
+  const loginId = $("loginId")?.value.trim() || "";
+  const password = $("loginPassword")?.value || "";
 
-  const loginId =
-    $("loginId").value.trim();
-
-  const password =
-    $("loginPassword").value;
-
-
-  if(!loginType){
-
-    showToast(
-      "Login Type নির্বাচন করুন।",
-      "error"
-    );
-
+  if(!loginId || !password){
+    showToast("User ID / Admin ID এবং Password দিন।", "error");
     return;
-
   }
 
+  const submitBtn = $("loginSubmitBtn");
+  if(submitBtn) submitBtn.disabled = true;
+  showLoader("Login হচ্ছে...");
 
-  showLoader(
-    "Login হচ্ছে..."
-  );
+  try{
+    const result = await api("login", { loginType, loginId, password });
 
+    if(!result || !result.success){
+      showToast(result?.message || "Login failed. আবার চেষ্টা করুন।", "error");
+      return;
+    }
 
-  const result =
-    await api(
-      "login",
-      {
-        loginType,
-        loginId,
-        password
-      }
-    );
+    if(result.type === "admin" && result.admin){
+      currentAdmin = result.admin;
+      currentUser = null;
+      sessionStorage.removeItem("jos_user");
+      sessionStorage.setItem("jos_admin", JSON.stringify(result.admin));
+      showAdminPage();
+      await loadAdminData();
+      return;
+    }
 
+    if(result.type === "user" && result.user){
+      currentUser = null;
+      sessionStorage.removeItem("jos_user");
+      showToast("এই পেজে শুধু Admin Login অনুমোদিত।", "error");
+      return;
+    }
 
-  hideLoader();
-
-
-  if(!result.success){
-
-    showToast(
-      result.message ||
-      "Login failed",
-      "error"
-    );
-
-    return;
-
+    showToast("Login response সঠিক নয়। Apps Script deployment পরীক্ষা করুন।", "error");
+  }catch(error){
+    console.error("JOS login error:", error);
+    showToast("Login করতে সমস্যা হয়েছে। Internet ও Apps Script URL পরীক্ষা করুন।", "error");
+  }finally{
+    hideLoader();
+    if(submitBtn) submitBtn.disabled = false;
   }
-
-
-  if(
-    result.type ===
-    "admin"
-  ){
-
-    currentAdmin =
-      result.admin;
-
-    sessionStorage.setItem(
-      "jos_admin",
-      JSON.stringify(
-        result.admin
-      )
-    );
-
-    showAdminPage();
-
-    await loadAdminData();
-
-    return;
-
-  }
-
-
-  if(
-    result.type ===
-    "user"
-  ){
-
-    currentUser =
-      result.user;
-
-    sessionStorage.setItem(
-      "jos_user",
-      JSON.stringify(
-        result.user
-      )
-    );
-
-    showUserDashboard();
-
-    await loadUserServices();
-
-  }
-
 }
 
 
@@ -6300,6 +7581,8 @@ async function handleLogin(e){
 
 function showUserDashboard(){
 
+  currentUser = null;
+  sessionStorage.removeItem("jos_user");
   $("landing")
     .classList.add("hidden");
 
@@ -6322,8 +7605,134 @@ function showUserDashboard(){
       " • " +
       currentUser.designation;
 
+  renderUserRealPhoto();
+  loadUserNotifications();
+
 }
 
+
+/* ============================================================
+   JOS NOTIFICATION CENTER
+============================================================ */
+let josUserNotifications = [];
+
+function openUserNotifications(){
+  const overlay=$("userNotificationOverlay");
+  if(overlay){
+    // Move the modal to BODY so dashboard transforms/overflow cannot turn it into inline content.
+    if(overlay.parentElement !== document.body) document.body.appendChild(overlay);
+    overlay.classList.add("active");
+    overlay.setAttribute("aria-hidden","false");
+    document.body.classList.add("jos-notification-open");
+  }
+  loadUserNotifications();
+}
+
+function closeUserNotifications(){
+  const overlay=$("userNotificationOverlay");
+  if(overlay){overlay.classList.remove("active");overlay.setAttribute("aria-hidden","true");}
+  document.body.classList.remove("jos-notification-open");
+}
+
+function updateUserNotificationBadge(){
+  const badge=$("userNotificationCount");
+  if(!badge)return;
+  const unread=josUserNotifications.filter(n=>!n.isRead).length;
+  badge.textContent=unread>99?"99+":String(unread);
+  badge.hidden=unread===0;
+}
+
+async function loadUserNotifications(){
+  const list=$("userNotificationsList");
+  if(!list)return;
+  if(!currentUser||!currentUser.userId){
+    list.innerHTML='<div class="jos-notification-state jos-notification-error"><span class="jos-notification-state-icon"><i class="fa-solid fa-user-lock"></i></span><h3>অ্যাকাউন্ট পাওয়া যায়নি</h3><p>আবার Login করে Notification দেখতে চেষ্টা করুন।</p></div>';
+    return;
+  }
+  list.innerHTML='<div class="jos-notification-state jos-notification-loading"><span class="jos-notification-spinner"></span><h3>বার্তা খোঁজা হচ্ছে</h3><p>আপনার Notification লোড হচ্ছে। একটু অপেক্ষা করুন...</p></div>';
+  try{
+    const result=await api("getUserNotifications",{userId:currentUser.userId});
+    if(!result || !result.success){
+      const rawReason=String((result&&result.message)||"");
+      const actionMismatch=/invalid action|unknown action|unsupported action/i.test(rawReason);
+      const helpText=actionMismatch
+        ?"Notification চালু করতে Apps Script-এ Notification-এর প্রয়োজনীয় Action যোগ করে নতুন Version Deploy করতে হবে।"
+        :"ইন্টারনেট বা সার্ভারের সংযোগে সাময়িক সমস্যা হয়েছে। কিছুক্ষণ পরে আবার চেষ্টা করুন।";
+      list.innerHTML=`<div class="jos-notification-state jos-notification-error"><span class="jos-notification-state-icon"><i class="fa-solid fa-cloud-arrow-down"></i></span><span class="jos-notification-error-kicker">JOS UPDATE CENTER</span><h3>${actionMismatch?"Notification Service সংযুক্ত হয়নি":"সংযোগ করা যাচ্ছে না"}</h3><p>${helpText}</p><button type="button" class="jos-notification-retry" onclick="loadUserNotifications()"><i class="fa-solid fa-rotate-right"></i> আবার চেষ্টা করুন</button></div>`;
+      return;
+    }
+    josUserNotifications=Array.isArray(result.notifications)?result.notifications:[];
+    updateUserNotificationBadge();
+    if(!josUserNotifications.length){list.innerHTML='<div class="jos-notification-state jos-notification-empty"><span class="jos-notification-state-icon"><i class="fa-regular fa-bell-slash"></i></span><h3>নতুন কোনো বার্তা নেই</h3><p>Admin কোনো Notification পাঠালে সেটি এখানে দেখা যাবে।</p></div>';return;}
+    list.innerHTML=josUserNotifications.map(n=>{
+      const id=escapeHTML(n.notificationId||"");
+      const title=escapeHTML(n.title||"JOS Notification");
+      const message=escapeHTML(n.message||"");
+      const type=escapeHTML(n.type||"General");
+      const date=n.createdAt?new Date(n.createdAt).toLocaleString("en-IN"):"";
+      return `<article class="jos-notification-item ${n.isRead?"":"unread"}"><div class="jos-notification-item-top"><h3>${title}</h3>${n.isRead?'<span class="jos-notification-read-label"><i class="fa-solid fa-check"></i> Read</span>':'<span class="jos-notification-new-label">NEW</span>'}</div><p>${message}</p><div class="jos-notification-meta"><span class="jos-notification-tag">${type}</span><span><i class="fa-regular fa-clock"></i> ${escapeHTML(date)}</span></div>${n.isRead?'':`<div class="jos-notification-item-actions"><button type="button" class="jos-notification-read-btn" onclick="markUserNotificationRead('${id}')"><i class="fa-solid fa-check"></i> পড়েছি</button></div>`}</article>`;
+    }).join("");
+  }catch(error){
+    console.error("JOS notification load error:",error);
+    list.innerHTML='<div class="jos-notification-state jos-notification-error"><span class="jos-notification-state-icon"><i class="fa-solid fa-triangle-exclamation"></i></span><h3>সংযোগ করা যাচ্ছে না</h3><p>সাময়িক সমস্যা হয়েছে। Internet পরীক্ষা করে আবার চেষ্টা করুন।</p><button type="button" class="jos-notification-retry" onclick="loadUserNotifications()"><i class="fa-solid fa-rotate-right"></i> আবার চেষ্টা করুন</button></div>';
+  }
+}
+
+async function markUserNotificationRead(notificationId){
+  if(!currentUser||!notificationId)return;
+  const result=await api("markNotificationRead",{notificationId,userId:currentUser.userId});
+  if(!result.success){showToast(result.message||"Read status update হয়নি।","error");return;}
+  const item=josUserNotifications.find(n=>String(n.notificationId)===String(notificationId));
+  if(item)item.isRead=true;
+  updateUserNotificationBadge();
+  loadUserNotifications();
+}
+
+async function sendAdminNotification(event){
+  event.preventDefault();
+  if(!currentAdmin){showToast("Admin login ছাড়া Notification পাঠানো যাবে না।","error");return;}
+  const title=$("adminNotificationTitle")?.value.trim() || "";
+  const message=$("adminNotificationMessage")?.value.trim() || "";
+  const type=$("adminNotificationType")?.value || "General";
+  const target=$("adminNotificationTarget")?.value || "all";
+  const userId=$("adminNotificationUserId")?.value.trim() || "";
+  if(!title||!message){showToast("Title ও Message লিখুন।","error");return;}
+  if(target==="specific"&&!userId){showToast("নির্দিষ্ট User ID লিখুন।","error");$("adminNotificationUserId")?.focus();return;}
+  const btn=$("adminSendNotificationBtn"), status=$("adminNotificationStatus");
+  if(btn){btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Sending...';}
+  if(status)status.textContent="Notification পাঠানো হচ্ছে...";
+  try{
+    const result=await api("sendNotification",{title,message,type,targetUserId:target==="all"?"ALL":userId,adminId:currentAdmin.adminId||currentAdmin.id||""});
+    if(!result||!result.success){
+      const msg=(result&&result.message)||"Notification পাঠানো যায়নি।";
+      if(status)status.textContent=msg;
+      showToast(msg,"error");return;
+    }
+    $("adminNotificationForm")?.reset();
+    $("adminNotificationUserWrap")?.classList.add("hidden");
+    if(status)status.textContent="Notification সফলভাবে পাঠানো হয়েছে।";
+    showToast("Notification পাঠানো হয়েছে।","success");
+  }catch(error){
+    console.error("Admin notification send error:",error);
+    if(status)status.textContent="Network / Apps Script error. আবার চেষ্টা করুন।";
+    showToast("Notification পাঠাতে সমস্যা হয়েছে। Internet ও Apps Script পরীক্ষা করুন।","error");
+  }finally{
+    if(btn){btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> Send Notification';}
+  }
+}
+
+function initJosNotificationSystem(){
+  const noticeOverlay=$("userNotificationOverlay");
+  if(noticeOverlay){
+    noticeOverlay.classList.remove("active");
+    noticeOverlay.setAttribute("aria-hidden","true");
+    if(noticeOverlay.parentElement !== document.body) document.body.appendChild(noticeOverlay);
+  }
+  $("userNotificationBtn")?.addEventListener("click",openUserNotifications);
+  $("userNotificationOverlay")?.addEventListener("click",function(e){if(e.target===this)closeUserNotifications();});
+  $("adminNotificationForm")?.addEventListener("submit",sendAdminNotification);
+  $("adminNotificationTarget")?.addEventListener("change",function(){const wrap=$("adminNotificationUserWrap");if(wrap)wrap.classList.toggle("hidden",this.value!=="specific");});
+}
 
 /* ============================================================
    ASSIGNED USER SERVICES
@@ -6482,86 +7891,43 @@ function closeServiceViewer(){
    USER PROFILE
 ============================================================ */
 
-function openUserProfile(){
-
-  if(!currentUser)
-    return;
-
-
-  $("profileContent").innerHTML =
-
-    profileItem(
-      "User ID",
-      currentUser.userId
-    ) +
-
-    profileItem(
-      "Name",
-      currentUser.name
-    ) +
-
-    profileItem(
-      "Designation",
-      currentUser.designation
-    ) +
-
-    profileItem(
-      "Mobile",
-      currentUser.mobile
-    ) +
-
-    profileItem(
-      "Email",
-      currentUser.email
-    ) +
-
-    profileItem(
-      "Office Name",
-      currentUser.officeName
-    ) +
-
-    profileItem(
-      "Office Type",
-      currentUser.officeType
-    ) +
-
-    profileItem(
-      "Office Address",
-      currentUser.officeAddress
-    ) +
-
-    profileItem(
-      "District",
-      currentUser.district
-    ) +
-
-    profileItem(
-      "State",
-      currentUser.state
-    ) +
-
-    profileItem(
-      "Pincode",
-      currentUser.pincode
-    ) +
-
-    profileItem(
-      "Promo Code",
-      currentUser.promoCode || currentUser.gst
-    ) +
-
-    profileItem(
-      "Status",
-      currentUser.status
-    );
-
-
-  openModal(
-    "profileModal"
-  );
-
+function buildJOSUserVCard(u){
+  const clean=v=>String(v||'').replace(/[\\;,]/g,' ').replace(/\r?\n/g,' ').trim();
+  return [
+    'BEGIN:VCARD','VERSION:3.0',
+    'FN:'+clean(u.name||'JOS Member'),
+    'ORG:Jana Online Service',
+    'TITLE:'+clean(u.designation||'Registered Member'),
+    'TEL;TYPE=CELL:'+clean(u.mobile),
+    'EMAIL:'+clean(u.email),
+    'NOTE:'+clean('JOS User ID: '+(u.userId||'')+' | Office: '+(u.officeName||'')+' | Address: '+(u.officeAddress||'')+' | District: '+(u.district||'')+' | State: '+(u.state||'')),
+    'END:VCARD'
+  ].join('\n');
 }
 
+function renderJOSProfileQR(u){
+  const box=$('josProfileQr'); if(!box) return;
+  box.innerHTML='';
+  if(window.QRCode){
+    new QRCode(box,{text:buildJOSUserVCard(u),width:132,height:132,colorDark:'#102f43',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+  }else{
+    box.innerHTML='<span class="jos-qr-error">QR load হয়নি</span>';
+  }
+}
+
+function openUserProfile(){
+  if(!currentUser) return;
+  const u=currentUser, urls=getProfilePhotoCandidates(u);
+  const initial=escapeHTML((String(u.name||"U").trim().charAt(0)||"U").toUpperCase());
+  const photo=urls.length ? `<img id="josProfileMainPhoto" class="jos-profile-photo-large" src="${escapeHTML(urls[0])}" alt="Profile photo" referrerpolicy="no-referrer">` : `<span class="jos-profile-photo-initial">${initial}</span>`;
+  const fields=[["User ID",u.userId,"fa-id-badge"],["Full Name",u.name,"fa-user"],["Designation",u.designation,"fa-briefcase"],["Mobile",u.mobile,"fa-phone"],["Email",u.email,"fa-envelope"],["Office Name",u.officeName,"fa-building"],["Office Type",u.officeType,"fa-layer-group"],["Office Address",u.officeAddress,"fa-location-dot"],["District",u.district,"fa-map"],["State",u.state,"fa-flag"],["Pincode",u.pincode,"fa-map-pin"],["Promo Code",u.promoCode||u.gst,"fa-ticket"],["Account Status",u.status,"fa-circle-check"]];
+  $("profileContent").innerHTML=`<section class="jos-profile-hero jos-profile-hero-v2"><div class="jos-profile-person"><div class="jos-profile-photo-ring">${photo}</div><div class="jos-profile-hero-text"><span class="jos-profile-kicker">JOS MEMBER PROFILE</span><h3>${escapeHTML(u.name||"User")}</h3><p>${escapeHTML(u.designation||"Registered Member")}</p><span class="jos-profile-id-pill"><i class="fa-solid fa-id-card"></i> ${escapeHTML(u.userId||"-")}</span><div class="jos-profile-photo-status">Registered member photo</div></div></div><aside class="jos-profile-qr-panel"><div class="jos-profile-qr-title">JOS DIGITAL PROFILE</div><div id="josProfileQr" class="jos-profile-qr"></div><small>SCAN TO SAVE CONTACT</small></aside></section><div class="jos-profile-section-title"><i class="fa-solid fa-address-card"></i> Personal & Office Information</div><div class="jos-profile-details-grid">${fields.map(([l,v,i])=>`<div class="jos-profile-detail"><span class="jos-profile-detail-icon"><i class="fa-solid ${i}"></i></span><div><small>${escapeHTML(l)}</small><strong>${escapeHTML(v||"-")}</strong></div></div>`).join("")}</div><div class="jos-profile-bottom"><i class="fa-solid fa-shield-halved"></i><span>Jana Online Service · Registration record</span></div>`;
+  const img=$("josProfileMainPhoto");
+  if(img){let n=0;img.onerror=function(){n++;if(n<urls.length)img.src=urls[n];else img.parentElement.innerHTML=`<span class="jos-profile-photo-initial">${initial}</span>`;};}
+   renderJOSProfileQR(u);
+
+  openModal("profileModal");
+}
 
 function profileItem(
   label,
@@ -6587,6 +7953,32 @@ function profileItem(
   `;
 
 }
+
+
+/* JOS USER ID CARD: reads the existing logged-in Google Sheets record only. */
+function generateUserIdCard(){
+ if(!currentUser){showToast("User information পাওয়া যায়নি। আবার login করুন।","error");return;}
+ const u=currentUser, fields=[["Full Name",u.name,""],["User ID",u.userId,""],["Designation",u.designation,""],["Mobile",u.mobile,""],["Email",u.email,"wide"],["Office Name",u.officeName,""],["Office Type",u.officeType,""],["Office Address",u.officeAddress,"wide"],["District",u.district,""],["State",u.state,""],["Pincode",u.pincode,""],["Promo / GST",u.promoCode||u.gst,""],["Account Status",u.status,""]];
+ $("josIdCardDetails").innerHTML=fields.filter(f=>f[1]!==undefined&&f[1]!==null&&String(f[1]).trim()!=="").map(f=>`<div class="jos-id-field ${f[2]}"><small>${escapeHTML(f[0])}</small><strong>${escapeHTML(f[1])}</strong></div>`).join("");
+ const idAvatar=$("josIdCardAvatar");
+ if(idAvatar){
+   idAvatar.innerHTML=getProfilePhotoCandidates(u).length
+     ? getProfilePhotoImageMarkup(u,"jos-idcard-real-photo","width:100%;height:100%;object-fit:cover;border-radius:11px")
+     : `<span class="jos-idcard-initial">${escapeHTML((u.name||"U").trim().charAt(0).toUpperCase())}</span>`;
+ }
+ const id=String(u.userId||"JOS-USER").trim();$("josIdCardCode").textContent=id;
+ const barcode=$("josUserBarcode");
+ if(barcode){
+   barcode.innerHTML="";
+   if(window.JsBarcode){
+     try{JsBarcode(barcode,id,{format:"CODE128",lineColor:"#102f43",background:"#ffffff",width:2,height:54,displayValue:false,margin:8});}
+     catch(err){barcode.outerHTML='<div id="josUserBarcode" class="jos-barcode-error">Barcode তৈরি করা যায়নি</div>';}
+   }else{barcode.outerHTML='<div id="josUserBarcode" class="jos-barcode-error">Barcode library load হয়নি</div>';showToast("Barcode library load হয়নি। Internet connection পরীক্ষা করুন।","error");}
+ }
+ const overlay=$("userIdCardOverlay");overlay.classList.add("active");overlay.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";
+}
+function closeUserIdCard(){const el=$("userIdCardOverlay");if(!el)return;el.classList.remove("active");el.setAttribute("aria-hidden","true");document.body.style.overflow="";}
+function printUserIdCard(){if(currentUser)window.print();}
 
 
 /* ============================================================
@@ -6632,6 +8024,7 @@ async function refreshUserStatus(){
   currentUser =
     result.user;
 
+  renderUserRealPhoto();
 
   sessionStorage.setItem(
     "jos_user",
@@ -6695,10 +8088,19 @@ function userLogout(){
 
 function showAdminPage(){
 
+  if(!currentAdmin){
+    $("adminPage")?.classList.add("hidden");
+    $("userDashboard")?.classList.add("hidden");
+    $("landing")?.classList.remove("hidden");
+    showToast("Admin login করে প্রবেশ করুন।","error");
+    return;
+  }
+
   $("landing")
     .classList.add("hidden");
 
-  $("userDashboard")?.classList.add("hidden");
+  $("userDashboard")
+    .classList.add("hidden");
 
   $("adminPage")
     .classList.remove("hidden");
@@ -6820,9 +8222,10 @@ function renderAdminUsers(){
             </td>
 
             <td>
-              ${escapeHTML(
-                user.name
-              )}
+              <div class="jos-admin-user">
+                ${getUserAvatarMarkup(user)}
+                <span>${escapeHTML(user.name || "")}</span>
+              </div>
             </td>
 
             <td>${escapeHTML(user.mobile || "")}</td>
@@ -6934,7 +8337,482 @@ function exportAdminUsers(format){
   }
   if(format==="excel"){
     const table=`<table><thead><tr>${headers.map(h=>`<th>${escapeHTML(h)}</th>`).join("")}</tr></thead><tbody>${values.map(row=>`<tr>${row.map(v=>`<td>${escapeHTML(clean(v))}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
-    const html=`<!doctype html><html><head><meta charset="utf-8"><style>body{font-family:Arial}h2{color:#007f8d}table{border-collapse:collapse}th{background:#007f8d;color:white}th,td{border:1px solid #cbd5e1;padding:8px;text-align:left}tr:nth-child(even){background:#eefafa}</style></head><body><h2>Jana Online Service — User Report</h2><p>Generated: ${new Date().toLocaleString()}</p>${table}</body></html>`;
+    const html=`<!doctype html><html><head><meta charset="utf-8"><style>body{font-family:Arial}h2{color:#007f8d}table{border-collapse:collapse}th{background:#007f8d;color:white}th,td{border:1px solid #cbd5e1;padding:8px;text-align:left}tr:nth-child(even){background:#eefafa}</style></head><body><h2>Jana Online Service — User Report</h2><p>Generated: ${new Date().toLocaleString()}</p>${table}
+<style id="jos-background-medium-tone">
+  body {
+    background: linear-gradient(135deg, #d7e5ed 0%, #e2ebf2 48%, #cfdee8 100%) !important;
+  }
+  .admin-page, #adminPage {
+    background: linear-gradient(135deg, #d4e4ec 0%, #e0eaf1 52%, #ccdee8 100%) !important;
+  }
+</style>
+
+
+<style id="jos-profile-photo-qr-final-fix">
+/* Keep the registered profile photo perfectly circular */
+#profileContent .jos-profile-hero-grid .jos-profile-photo-ring{
+  width:92px !important;
+  height:92px !important;
+  min-width:92px !important;
+  min-height:92px !important;
+  flex:0 0 92px !important;
+  aspect-ratio:1 / 1 !important;
+  box-sizing:border-box !important;
+  border-radius:50% !important;
+  overflow:hidden !important;
+  padding:0 !important;
+  display:block !important;
+  background:#e8f2f5 !important;
+  border:4px solid #fff !important;
+  box-shadow:0 3px 12px rgba(0,0,0,.18) !important;
+}
+#profileContent #josProfileMainPhoto,
+#profileContent .jos-profile-photo-large,
+#profileContent .jos-profile-photo-initial{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  max-width:none !important;
+  max-height:none !important;
+  border-radius:50% !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+  overflow:hidden !important;
+}
+#profileContent .jos-profile-photo-initial{
+  display:grid !important;
+  place-items:center !important;
+}
+/* Remove the stray outline/empty rectangle around and below the QR */
+#profileContent .jos-profile-qr-panel{
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:rgba(255,255,255,.12) !important;
+  overflow:visible !important;
+}
+#profileContent .jos-profile-qr{
+  width:124px !important;
+  height:124px !important;
+  min-height:124px !important;
+  box-sizing:border-box !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  padding:4px !important;
+  margin:5px auto !important;
+  overflow:hidden !important;
+  background:#fff !important;
+  border-radius:8px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+#profileContent .jos-profile-qr img,
+#profileContent .jos-profile-qr canvas{
+  display:block !important;
+  position:static !important;
+  width:116px !important;
+  height:116px !important;
+  max-width:116px !important;
+  max-height:116px !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  margin:0 !important;
+}
+@media(max-width:560px){
+  #profileContent .jos-profile-hero-grid .jos-profile-photo-ring{
+    width:74px !important;height:74px !important;
+    min-width:74px !important;min-height:74px !important;
+    flex-basis:74px !important;
+  }
+  #profileContent .jos-profile-qr{
+    width:92px !important;height:92px !important;min-height:92px !important;
+  }
+  #profileContent .jos-profile-qr img,
+  #profileContent .jos-profile-qr canvas{
+    width:84px !important;height:84px !important;
+    max-width:84px !important;max-height:84px !important;
+  }
+}
+</style>
+
+
+<style id="jos-notification-system-styles">
+.jos-notification-bell{position:relative;width:42px;height:42px;border:1px solid rgba(255,255,255,.5);border-radius:12px;background:#ffffff;color:#087f8c;display:grid;place-items:center;font-size:17px;cursor:pointer;box-shadow:0 4px 12px #003e5018}
+.jos-notification-count{position:absolute;right:-5px;top:-6px;min-width:19px;height:19px;padding:0 5px;border-radius:20px;background:#e11d48;color:#fff;font-size:10px;font-weight:900;display:grid;place-items:center;border:2px solid #fff}
+.jos-notification-count[hidden]{display:none}
+.jos-notification-overlay{position:fixed;inset:0;z-index:10050;background:rgba(8,25,38,.48);display:none;align-items:flex-start;justify-content:flex-end;padding:82px 22px 22px;backdrop-filter:blur(3px)}
+.jos-notification-overlay.active{display:flex}
+.jos-notification-panel{width:min(470px,100%);max-height:min(720px,calc(100vh - 105px));overflow:hidden;background:#fff;border:1px solid #e2e8f0;border-radius:20px;box-shadow:0 24px 70px #001b2b45;display:flex;flex-direction:column}
+.jos-notification-panel-head{padding:20px 21px 16px;display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #edf1f5;background:linear-gradient(135deg,#fff,#f4fbfc)}
+.jos-notification-kicker{font-size:10px;font-weight:900;letter-spacing:1.2px;color:#0891a1}.jos-notification-panel-head h2{margin:5px 0;color:#173548;font-size:23px}.jos-notification-panel-head p{margin:0;color:#647789;font-size:12px}
+.jos-notification-close{width:34px;height:34px;border:0;border-radius:10px;background:#edf5f7;color:#29475a;font-size:25px;cursor:pointer;line-height:1}
+.jos-notification-list{padding:12px 15px;overflow:auto;min-height:150px}.jos-notification-item{padding:14px;margin:7px 0;border:1px solid #e5edf1;border-radius:14px;background:#fff;position:relative}.jos-notification-item.unread{border-color:#9bdde1;background:#f3fcfc}.jos-notification-item.unread:before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:5px;background:#0891a1}.jos-notification-item h3{font-size:14px;margin:0 0 6px;color:#18394d}.jos-notification-item p{font-size:12px;line-height:1.6;color:#506678;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}.jos-notification-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;color:#8192a0;font-size:10px}.jos-notification-tag{padding:4px 8px;border-radius:20px;background:#e8f5f7;color:#087f8c;font-weight:800}.jos-notification-empty{text-align:center;padding:35px 12px;color:#718394;font-size:13px}.jos-notification-panel-foot{padding:12px 16px;border-top:1px solid #edf1f5;display:flex;align-items:center;justify-content:space-between;color:#80909d;font-size:11px}
+.jos-admin-notification-section .section-head{margin-bottom:16px}.jos-admin-notification-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.jos-admin-notification-form label{display:flex;flex-direction:column;gap:7px;font-size:12px;font-weight:800;color:#385366}.jos-admin-notification-form input,.jos-admin-notification-form select,.jos-admin-notification-form textarea{width:100%;box-sizing:border-box;border:1px solid #d8e5eb;border-radius:10px;padding:11px 12px;background:#fff;color:#173548;font:inherit;font-weight:500;outline:none}.jos-admin-notification-form input:focus,.jos-admin-notification-form select:focus,.jos-admin-notification-form textarea:focus{border-color:#0796a4;box-shadow:0 0 0 3px #0891a115}.jos-notification-message-field,.jos-notification-form-actions{grid-column:1/-1}.jos-notification-form-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.jos-notification-form-actions span{font-size:11px;color:#718394}.jos-notification-form-actions .btn{min-height:42px}
+@media(max-width:600px){.jos-notification-overlay{padding:70px 9px 12px;justify-content:center}.jos-notification-panel{max-height:calc(100vh - 85px);border-radius:17px}.jos-admin-notification-form{grid-template-columns:1fr}.jos-notification-message-field,.jos-notification-form-actions{grid-column:auto}.jos-notification-form-actions{align-items:stretch;flex-direction:column}.jos-notification-form-actions .btn{width:100%}.jos-notification-bell{width:39px;height:39px}}
+/* JOS notification polish: compact app-style bell, animated sheet and calm states */
+#userDashboard .jos-notification-bell{width:44px;height:44px;border:1px solid #dcebed;border-radius:15px;background:linear-gradient(145deg,#fff,#effafb);color:#087f8c;font-size:18px;box-shadow:0 5px 15px rgba(4,83,94,.12);transition:transform .2s,box-shadow .2s,background .2s}
+#userDashboard .jos-notification-bell:hover{transform:translateY(-2px);background:#fff;box-shadow:0 9px 20px rgba(4,83,94,.18)}
+#userDashboard .jos-notification-bell:active{transform:scale(.95)}
+#userDashboard .jos-notification-bell i{filter:drop-shadow(0 2px 2px #087f8c22)}
+#userDashboard .jos-notification-count{right:-4px;top:-5px;min-width:20px;height:20px;background:linear-gradient(135deg,#ef4444,#be123c);font-size:10px;box-shadow:0 2px 7px #be123c55}
+#userDashboard .jos-notification-overlay{padding:76px 16px 18px;align-items:flex-start;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .22s ease,visibility .22s ease}
+#userDashboard .jos-notification-overlay.active{opacity:1;visibility:visible;pointer-events:auto}
+#userDashboard .jos-notification-panel{width:min(460px,100%);max-height:min(690px,calc(100dvh - 94px));border:1px solid #dcebed;border-radius:22px;box-shadow:0 26px 75px rgba(5,35,48,.28);transform:translateY(-10px) scale(.985);transition:transform .24s ease}
+#userDashboard .jos-notification-overlay.active .jos-notification-panel{transform:translateY(0) scale(1)}
+#userDashboard .jos-notification-panel-head{padding:19px 20px 16px;background:linear-gradient(135deg,#f1fbfc 0%,#fff 72%)}
+#userDashboard .jos-notification-panel-head h2{font-size:22px;font-weight:850;letter-spacing:-.5px}
+#userDashboard .jos-notification-close{flex:0 0 36px;width:36px;height:36px;border:1px solid #e0ebee;background:#fff;color:#45616d;box-shadow:0 3px 9px #1232440d}
+#userDashboard .jos-notification-list{padding:12px 14px 16px;min-height:190px;overscroll-behavior:contain}
+#userDashboard .jos-notification-item{padding:15px 15px 13px;margin:8px 0;border:1px solid #e5edef;border-radius:16px;box-shadow:0 3px 12px rgba(20,65,78,.045);transition:border-color .2s,transform .2s}
+#userDashboard .jos-notification-item.unread{border-color:#b7e5e7;background:linear-gradient(135deg,#f1fcfc,#fff 85%)}
+#userDashboard .jos-notification-item-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+#userDashboard .jos-notification-item h3{font-size:14px;font-weight:800;line-height:1.5}
+#userDashboard .jos-notification-item p{font-size:13px;line-height:1.75;margin-top:3px;color:#4b6471}
+#userDashboard .jos-notification-meta{font-size:10px;margin-top:12px}
+#userDashboard .jos-notification-new-label,#userDashboard .jos-notification-read-label{white-space:nowrap;padding:4px 8px;border-radius:20px;font-size:9px;font-weight:900}
+#userDashboard .jos-notification-new-label{background:#fff0f0;color:#d13b4b}
+#userDashboard .jos-notification-read-label{background:#eaf8ef;color:#16834a}
+#userDashboard .jos-notification-item-actions{display:flex;justify-content:flex-end;margin-top:12px}
+#userDashboard .jos-notification-read-btn{border:1px solid #b8e2e4;border-radius:10px;padding:8px 12px;background:#effafa;color:#087f8c;font-size:11px;font-weight:800;cursor:pointer}
+#userDashboard .jos-notification-read-btn:active,#userDashboard .jos-notification-retry:active{transform:scale(.97)}
+#userDashboard .jos-notification-state{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:235px;padding:28px 18px;box-sizing:border-box}
+#userDashboard .jos-notification-state-icon{width:62px;height:62px;border-radius:20px;display:grid;place-items:center;margin-bottom:14px;background:#edf8f9;color:#0b8792;font-size:25px}
+#userDashboard .jos-notification-state h3{margin:0 0 7px;color:#18394a;font-size:15px;font-weight:850}
+#userDashboard .jos-notification-state p{max-width:290px;margin:0;color:#718391;font-size:12px;line-height:1.75}
+#userDashboard .jos-notification-error .jos-notification-state-icon{background:#fff5ed;color:#d97706}
+#userDashboard .jos-notification-error-detail{display:block;max-width:100%;margin-top:10px;padding:6px 9px;border-radius:8px;background:#f7f9fa;color:#96a3aa;font-size:9px;overflow-wrap:anywhere}
+#userDashboard .jos-notification-retry{margin-top:17px;border:0;border-radius:11px;padding:10px 16px;background:linear-gradient(110deg,#087f8c,#0da5a6);color:#fff;font-size:12px;font-weight:800;box-shadow:0 6px 14px #087f8c30;cursor:pointer}
+#userDashboard .jos-notification-spinner{width:30px;height:30px;border:3px solid #d9eeee;border-top-color:#078b96;border-radius:50%;animation:josNoticeSpin .8s linear infinite;margin-bottom:15px}
+@keyframes josNoticeSpin{to{transform:rotate(360deg)}}
+#userDashboard .jos-notification-panel-foot{background:#fbfdfd;padding:12px 16px}
+@media(max-width:600px){#userDashboard .jos-notification-overlay{padding:65px 10px 12px}#userDashboard .jos-notification-panel{max-height:calc(100dvh - 80px);border-radius:19px}#userDashboard .jos-notification-state{min-height:210px}}
+@media(prefers-reduced-motion:reduce){#userDashboard .jos-notification-overlay,#userDashboard .jos-notification-panel,#userDashboard .jos-notification-bell{transition:none!important}#userDashboard .jos-notification-spinner{animation:none!important}}
+</style>
+
+
+<style id="jos-notification-responsive-final">
+/* Global modal styles: overlay is moved to BODY, so never scope these to #userDashboard. */
+#userNotificationOverlay{
+  position:fixed!important;inset:0!important;z-index:2147483000!important;
+  display:none!important;align-items:center!important;justify-content:center!important;
+  width:100%!important;height:100dvh!important;box-sizing:border-box!important;
+  padding:clamp(12px,3vw,28px)!important;overflow:hidden!important;
+  background:rgba(5,22,34,.66)!important;
+  -webkit-backdrop-filter:blur(9px)!important;backdrop-filter:blur(9px)!important;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .22s ease,visibility .22s ease!important;
+}
+#userNotificationOverlay.active{
+  display:flex!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;
+}
+#userNotificationOverlay .jos-notification-panel{
+  display:flex!important;flex-direction:column!important;position:relative!important;
+  width:min(500px,100%)!important;max-width:500px!important;
+  max-height:min(780px,calc(100dvh - 32px))!important;height:auto!important;
+  min-height:0!important;margin:auto!important;overflow:hidden!important;
+  border:1px solid #dce9ed!important;border-radius:25px!important;
+  background:#fff!important;box-shadow:0 30px 90px rgba(0,18,32,.34)!important;
+  transform:translateY(14px) scale(.985);transition:transform .24s ease!important;
+}
+#userNotificationOverlay.active .jos-notification-panel{transform:translateY(0) scale(1)!important}
+#userNotificationOverlay .jos-notification-panel-head{
+  display:flex!important;flex-direction:row!important;align-items:flex-start!important;
+  justify-content:space-between!important;gap:14px!important;flex:0 0 auto!important;
+  width:100%!important;box-sizing:border-box!important;padding:22px 22px 18px!important;
+  background:linear-gradient(135deg,#e9f9fa 0%,#fff 78%)!important;
+  border-bottom:1px solid #e8eff1!important;
+}
+#userNotificationOverlay .jos-notification-panel-head>div{flex:1 1 auto!important;min-width:0!important}
+#userNotificationOverlay .jos-notification-kicker{display:block!important;font-size:10px!important;letter-spacing:1.25px!important;font-weight:900!important;color:#078795!important}
+#userNotificationOverlay .jos-notification-panel-head h2{margin:5px 0 5px!important;font-size:25px!important;line-height:1.2!important;font-weight:850!important;color:#14394a!important}
+#userNotificationOverlay .jos-notification-panel-head p{margin:0!important;font-size:12px!important;line-height:1.6!important;color:#687d89!important}
+#userNotificationOverlay .jos-notification-close{
+  display:grid!important;place-items:center!important;flex:0 0 40px!important;
+  width:40px!important;height:40px!important;margin:0!important;padding:0!important;
+  border:1px solid #dce9ed!important;border-radius:13px!important;background:#fff!important;
+  color:#244858!important;font-size:25px!important;line-height:1!important;
+  box-shadow:0 4px 13px rgba(0,40,55,.08)!important;cursor:pointer!important;
+}
+#userNotificationOverlay .jos-notification-list{
+  display:block!important;flex:1 1 auto!important;min-height:0!important;
+  max-height:55dvh!important;overflow-y:auto!important;overscroll-behavior:contain!important;
+  box-sizing:border-box!important;padding:16px!important;background:#f8fbfc!important;
+}
+#userNotificationOverlay .jos-notification-state{
+  display:flex!important;flex-direction:column!important;align-items:center!important;
+  justify-content:center!important;gap:0!important;min-height:260px!important;
+  height:auto!important;box-sizing:border-box!important;padding:28px 18px!important;
+  text-align:center!important;border:1px dashed #dce8eb!important;
+  border-radius:19px!important;background:linear-gradient(180deg,#fff,#f8fcfd)!important;
+}
+#userNotificationOverlay .jos-notification-state-icon{
+  display:grid!important;place-items:center!important;width:66px!important;height:66px!important;
+  margin:0 0 15px!important;border-radius:22px!important;background:#eaf7f8!important;
+  color:#078895!important;font-size:27px!important;
+}
+#userNotificationOverlay .jos-notification-error .jos-notification-state-icon{background:#fff3e9!important;color:#d97706!important}
+#userNotificationOverlay .jos-notification-error-kicker{margin:0 0 6px!important;color:#0b8792!important;font-size:9px!important;font-weight:900!important;letter-spacing:1.4px!important}
+#userNotificationOverlay .jos-notification-state h3{margin:0 0 8px!important;color:#18394a!important;font-size:17px!important;line-height:1.4!important;font-weight:850!important}
+#userNotificationOverlay .jos-notification-state p{max-width:340px!important;margin:0!important;color:#667b88!important;font-size:13px!important;line-height:1.8!important}
+#userNotificationOverlay .jos-notification-retry{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;
+  min-height:44px!important;margin:19px 0 0!important;padding:0 20px!important;
+  border:0!important;border-radius:13px!important;background:linear-gradient(135deg,#087f8c,#0da5a6)!important;
+  color:#fff!important;font-size:13px!important;font-weight:800!important;
+  box-shadow:0 7px 18px rgba(8,127,140,.22)!important;cursor:pointer!important;
+}
+#userNotificationOverlay .jos-notification-error-detail{display:none!important}
+#userNotificationOverlay .jos-notification-panel-foot{
+  display:flex!important;flex:0 0 auto!important;align-items:center!important;
+  justify-content:space-between!important;gap:12px!important;box-sizing:border-box!important;
+  padding:13px 18px!important;background:#fff!important;border-top:1px solid #e9eff1!important;
+  color:#71838e!important;font-size:11px!important;
+}
+#userNotificationOverlay .jos-notification-panel-foot .btn{
+  min-height:40px!important;padding:0 16px!important;border-radius:12px!important;
+  font-size:12px!important;font-weight:800!important;
+}
+#userNotificationOverlay .jos-notification-item{width:100%!important;box-sizing:border-box!important}
+@media(max-width:600px){
+  #userNotificationOverlay{padding:12px!important}
+  #userNotificationOverlay .jos-notification-panel{
+    width:100%!important;max-width:440px!important;max-height:calc(100dvh - 24px)!important;
+    border-radius:22px!important;
+  }
+  #userNotificationOverlay .jos-notification-panel-head{padding:18px 17px 15px!important}
+  #userNotificationOverlay .jos-notification-panel-head h2{font-size:22px!important}
+  #userNotificationOverlay .jos-notification-close{flex-basis:38px!important;width:38px!important;height:38px!important}
+  #userNotificationOverlay .jos-notification-list{max-height:52dvh!important;padding:12px!important}
+  #userNotificationOverlay .jos-notification-state{min-height:230px!important;padding:23px 15px!important}
+  #userNotificationOverlay .jos-notification-state p{font-size:12px!important}
+  #userNotificationOverlay .jos-notification-panel-foot{padding:11px 14px!important}
+}
+@media(max-height:620px){
+  #userNotificationOverlay .jos-notification-panel{max-height:calc(100dvh - 18px)!important}
+  #userNotificationOverlay .jos-notification-list{max-height:42dvh!important}
+  #userNotificationOverlay .jos-notification-state{min-height:190px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  #userNotificationOverlay,#userNotificationOverlay .jos-notification-panel{transition:none!important}
+}
+</style>
+
+
+
+<!-- JOS NOTIFICATION BUTTON: FINAL PROFESSIONAL STYLE -->
+<style id="jos-notification-button-final-style">
+  #userDashboard .top-actions .jos-notification-bell,
+  #userDashboard .jos-notification-bell {
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 48px !important;
+    width: 48px !important;
+    min-width: 48px !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    padding: 0 !important;
+    margin: 0 2px !important;
+    border: 1px solid rgba(255,255,255,.72) !important;
+    border-radius: 16px !important;
+    background: linear-gradient(145deg,#ffffff 0%,#e8fbfc 100%) !important;
+    color: #087f8c !important;
+    font-size: 20px !important;
+    line-height: 1 !important;
+    box-shadow: 0 4px 12px rgba(0,48,60,.16), inset 0 1px 0 rgba(255,255,255,.95) !important;
+    cursor: pointer !important;
+    -webkit-tap-highlight-color: transparent !important;
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease !important;
+  }
+  #userDashboard .jos-notification-bell i {
+    display: block !important;
+    color: #087f8c !important;
+    font-size: 20px !important;
+    filter: none !important;
+  }
+  #userDashboard .jos-notification-bell:hover {
+    background: #ffffff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 7px 17px rgba(0,48,60,.22) !important;
+  }
+  #userDashboard .jos-notification-bell:active { transform: scale(.94) !important; }
+  #userDashboard .jos-notification-bell:focus-visible {
+    outline: 3px solid #ffe082 !important;
+    outline-offset: 3px !important;
+  }
+  #userDashboard .jos-notification-bell .jos-notification-count {
+    position: absolute !important;
+    top: -6px !important;
+    right: -6px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 19px !important;
+    height: 19px !important;
+    padding: 0 5px !important;
+    border: 2px solid #0797a1 !important;
+    border-radius: 999px !important;
+    background: #e53935 !important;
+    color: #ffffff !important;
+    font: 800 10px/1 Arial,sans-serif !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,.2) !important;
+  }
+  #userDashboard .jos-notification-bell .jos-notification-count[hidden] { display: none !important; }
+  @media (max-width:600px) {
+    #userDashboard .top-actions .jos-notification-bell,
+    #userDashboard .jos-notification-bell {
+      flex-basis: 46px !important; width: 46px !important; min-width: 46px !important;
+      height: 46px !important; min-height: 46px !important; border-radius: 15px !important;
+      font-size: 19px !important;
+    }
+    #userDashboard .jos-notification-bell i { font-size: 19px !important; }
+  }
+  @media (max-width:360px) {
+    #userDashboard .top-actions .jos-notification-bell,
+    #userDashboard .jos-notification-bell {
+      flex-basis: 42px !important; width: 42px !important; min-width: 42px !important;
+      height: 42px !important; min-height: 42px !important; border-radius: 13px !important;
+    }
+  }
+  @media (prefers-reduced-motion:reduce) { #userDashboard .jos-notification-bell { transition:none !important; } }
+</style>
+
+
+
+<!-- JOS NOTIFICATION BELL: LARGE, CLEAR, MODERN MOBILE BUTTON -->
+<style id="jos-notification-bell-modern-override">
+  /* Use the ID selector so this remains effective even if the header is outside #userDashboard. */
+  #userNotificationBtn {
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 54px !important;
+    width: 54px !important;
+    min-width: 54px !important;
+    max-width: 54px !important;
+    height: 54px !important;
+    min-height: 54px !important;
+    max-height: 54px !important;
+    padding: 0 !important;
+    margin: 0 5px !important;
+    overflow: visible !important;
+    border: 1px solid rgba(255,255,255,.9) !important;
+    border-radius: 18px !important;
+    background: linear-gradient(145deg,#ffffff 0%,#e8fbfc 55%,#d4f3f4 100%) !important;
+    color: #087f8c !important;
+    box-shadow: 0 5px 15px rgba(0,45,58,.20), inset 0 1px 0 #ffffff !important;
+    cursor: pointer !important;
+    -webkit-tap-highlight-color: transparent !important;
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease !important;
+  }
+  #userNotificationBtn > i {
+    display: inline-block !important;
+    font-family: "Font Awesome 6 Free","Font Awesome 5 Free" !important;
+    font-weight: 900 !important;
+    font-size: 25px !important;
+    line-height: 1 !important;
+    color: #087f8c !important;
+    text-shadow: 0 2px 3px rgba(8,127,140,.15) !important;
+  }
+  #userNotificationBtn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 19px rgba(0,45,58,.24) !important;
+    filter: saturate(1.08) !important;
+  }
+  #userNotificationBtn:active {
+    transform: scale(.94) !important;
+  }
+  #userNotificationBtn:focus-visible {
+    outline: 3px solid #ffe082 !important;
+    outline-offset: 3px !important;
+  }
+  #userNotificationBtn .jos-notification-count {
+    position: absolute !important;
+    top: -7px !important;
+    right: -7px !important;
+    z-index: 5 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 22px !important;
+    height: 22px !important;
+    padding: 0 5px !important;
+    border: 2px solid #ffffff !important;
+    border-radius: 999px !important;
+    background: linear-gradient(135deg,#ff5252,#d7193f) !important;
+    color: #ffffff !important;
+    font: 800 11px/1 Arial,sans-serif !important;
+    box-shadow: 0 3px 8px rgba(150,0,25,.25) !important;
+  }
+  #userNotificationBtn .jos-notification-count[hidden] {
+    display: none !important;
+  }
+  @media (max-width:600px) {
+    #userNotificationBtn {
+      flex-basis: 52px !important;
+      width: 52px !important;
+      min-width: 52px !important;
+      max-width: 52px !important;
+      height: 52px !important;
+      min-height: 52px !important;
+      max-height: 52px !important;
+      border-radius: 17px !important;
+    }
+    #userNotificationBtn > i { font-size: 24px !important; }
+  }
+  @media (max-width:360px) {
+    #userNotificationBtn {
+      flex-basis: 48px !important;
+      width: 48px !important;
+      min-width: 48px !important;
+      max-width: 48px !important;
+      height: 48px !important;
+      min-height: 48px !important;
+      max-height: 48px !important;
+      border-radius: 15px !important;
+      margin-left: 2px !important;
+      margin-right: 2px !important;
+    }
+    #userNotificationBtn > i { font-size: 22px !important; }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    #userNotificationBtn { transition: none !important; }
+  }
+</style>
+
+
+<style id="jos-admin-access-restoration">
+/* Restore the Admin login option and dashboard visibility after successful login. */
+#adminPage{display:none!important}
+#adminPage:not(.hidden){display:block!important}
+#adminLoginBtn{display:flex!important}
+.jos-account-switch{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 20px}
+.jos-account-option{min-width:0;min-height:62px;padding:9px 11px;display:flex;align-items:center;gap:10px;text-align:left;border:1.5px solid #dbe6eb;border-radius:13px;background:#f7fafb;color:#526875;cursor:pointer;transition:.2s}
+.jos-account-option>i{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;border-radius:10px;background:#e5f5f6;color:#087f8c}
+.jos-account-option span{display:flex;flex-direction:column;gap:3px;min-width:0}
+.jos-account-option strong{font-size:12px;color:#173b4b}
+.jos-account-option small{font-size:10px;color:#718591}
+.jos-account-option.active{border-color:#087f8c;background:#eaf8f8;box-shadow:0 4px 14px #087f8c18}
+.jos-account-option.active>i{background:#087f8c;color:#fff}
+.jos-account-option:focus-visible{outline:3px solid #67d4d5;outline-offset:2px}
+#adminPage .jos-admin-notification-section{border:1px solid #dce9ed;box-shadow:0 8px 25px rgba(14,67,77,.06)}
+#adminPage .jos-admin-notification-form label{display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:700;color:#294653}
+#adminPage .jos-admin-notification-form input,#adminPage .jos-admin-notification-form select,#adminPage .jos-admin-notification-form textarea{width:100%;min-height:43px;padding:11px 12px;border:1px solid #d4e1e6;border-radius:10px;background:#fff;color:#173b4b;outline:none}
+#adminPage .jos-admin-notification-form input:focus,#adminPage .jos-admin-notification-form select:focus,#adminPage .jos-admin-notification-form textarea:focus{border-color:#0b929d;box-shadow:0 0 0 3px #0b929d18}
+@media(max-width:520px){.jos-account-switch{gap:7px}.jos-account-option{padding:8px;gap:7px}.jos-account-option>i{width:31px;height:31px;flex-basis:31px}.jos-account-option strong{font-size:11px}.jos-account-option small{font-size:9px}}
+</style>
+
+
+
+
+</body></html>`;
     downloadAdminBlob("\uFEFF"+html,`JOS-Users-${stamp}.xls`,"application/vnd.ms-excel;charset=utf-8;");
     showToast("Excel-compatible ফাইল তৈরি হয়েছে।","success");return;
   }
@@ -6952,9 +8830,394 @@ function exportAdminUsers(format){
     th{background:#075985;color:white;text-align:left;padding:7px 5px}td{padding:6px 5px;border:1px solid #d6e2e9;overflow-wrap:anywhere}
     tbody tr:nth-child(even){background:#effafa}.foot{margin-top:14px;color:#64748b;font-size:9px;border-top:2px solid #0097a7;padding-top:8px}
     @media screen{body{padding:20px;background:#eef3f6}.paper{background:white;max-width:1400px;margin:auto;padding:22px;box-shadow:0 8px 30px #0001}}
-    </style></head><body><div class="paper"><div class="hero"><h1>JANA ONLINE SERVICE</h1><div class="sub">USER MANAGEMENT REPORT · Confidential administrative record</div></div>
+    </style>
+<style id="jos-professional-app-v3">
+/* JOS v3 — visual layer only. Existing forms, IDs, API and Google Sheets workflow are retained. */
+#adminPage{display:none!important}
+#adminLoginBtn{display:none!important}
+:root{--jos-teal:#087f8c;--jos-aqua:#10b7b0;--jos-ink:#15323b;--jos-muted:#637780;--jos-bg:#f3f8f9;--jos-line:#e0eaec;--jos-shadow:0 18px 55px rgba(14,67,77,.11)}
+html{min-height:100%;scroll-behavior:smooth} body{min-height:100%;background:var(--jos-bg);color:var(--jos-ink);font-family:Inter,"Noto Sans Bengali",Arial,sans-serif;overflow-x:hidden}
+/* LOGIN: clean, no decorative blobs/canvas/shapes */
+#landing.app-login-page{position:relative;isolation:isolate;min-height:100svh;height:auto;overflow:visible;display:flex;align-items:center;justify-content:center;padding:clamp(16px,4vw,48px);background:radial-gradient(ellipse at 10% 0%,#d9f5f2 0,transparent 40%),linear-gradient(135deg,#f7fbfc 0%,#eaf5f6 55%,#f9fcfc 100%)!important}
+#josLoginNetworkCanvas,#landing .login-bg-shape{display:none!important}
+#landing .login-app-wrapper{position:relative;z-index:1;width:min(1120px,100%);max-width:1120px;min-height:0;height:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,440px);overflow:hidden;border:1px solid rgba(255,255,255,.95);border-radius:28px;background:#fff;box-shadow:0 28px 80px rgba(11,70,81,.13);backdrop-filter:none}
+#landing .login-brand-area{min-width:0;padding:clamp(28px,5vw,58px);display:flex;flex-direction:column;justify-content:center;gap:26px;background:linear-gradient(145deg,#075d68 0%,#087f8c 52%,#10a8a7 100%)!important;color:#fff}
+#landing .brand-logo-box{margin:0 0 4px}#landing .brand-logo{width:76px;height:76px;border-radius:20px;object-fit:contain;background:rgba(255,255,255,.12);padding:7px;box-shadow:0 10px 24px rgba(0,0,0,.10)}
+#landing .brand-content h1{font-size:clamp(25px,3.2vw,39px);line-height:1.15;letter-spacing:.025em;color:#fff;font-weight:850;margin:0 0 12px}
+#landing .brand-subtitle{font-size:17px;color:#d9ffff;font-weight:650;margin-bottom:12px}#landing .brand-description{max-width:480px;font-size:15px;line-height:1.9;color:rgba(255,255,255,.88)}
+#landing .brand-features{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:4px}
+#landing .brand-feature{min-width:0;padding:12px;border:1px solid rgba(255,255,255,.2);border-radius:14px;background:rgba(255,255,255,.08);color:#fff;backdrop-filter:blur(6px)}
+#landing .brand-feature .feature-icon{width:35px;height:35px;margin-bottom:8px;display:flex;align-items:center;justify-content:center}#landing .brand-feature .feature-icon img,#landing .brand-feature .feature-icon image{max-width:30px;max-height:30px;object-fit:contain}
+#landing .brand-feature strong,#landing .brand-feature h3{font-size:13px;color:#fff}#landing .brand-feature p,#landing .brand-feature small{font-size:11px;line-height:1.5;color:rgba(255,255,255,.78)}
+#landing .login-card-area{min-width:0;padding:clamp(24px,4vw,42px);display:flex;flex-direction:column;justify-content:center;background:#fff}
+#landing .login-heading{margin-bottom:24px}#landing .login-heading h2{font-size:28px;line-height:1.2;font-weight:800;letter-spacing:-.03em;color:#173b43;margin-bottom:8px}#landing .login-heading p{font-size:14px;line-height:1.7;color:var(--jos-muted)}
+#landing .login-type-buttons,#landing .account-type-title{display:none!important}
+#landing .auth-card,#landing .professional-auth-card{width:100%;max-width:none;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+#landing .modern-input-group{margin-bottom:17px}#landing .modern-input-group label{display:block;margin:0 0 8px;font-size:13px;font-weight:750;color:#34515a}
+#landing .modern-input{height:51px;display:flex;align-items:center;gap:10px;padding:0 14px;border:1px solid #dce8ea;border-radius:13px;background:#f9fcfc;transition:border-color .2s,box-shadow .2s,background .2s}
+#landing .modern-input:focus-within{border-color:var(--jos-aqua);background:#fff;box-shadow:0 0 0 4px rgba(16,183,176,.12)}
+#landing .modern-input input{width:100%;min-width:0;height:100%;border:0!important;outline:0!important;background:transparent!important;box-shadow:none!important;color:#173b43;font-size:14px}
+#landing .modern-input>i{flex:0 0 auto;color:#78949a}#landing .modern-input img,#landing .modern-input image{max-width:23px;max-height:23px;object-fit:contain}
+#landing button[type=submit],#landing .auth-submit,#landing #loginForm button[type=submit]{width:100%;min-height:51px;border:0;border-radius:13px;background:linear-gradient(100deg,#087f8c,#0ca9a7);color:#fff;font-weight:800;box-shadow:0 9px 20px rgba(8,127,140,.19);transition:transform .2s,box-shadow .2s}
+#landing button[type=submit]:hover,#landing .auth-submit:hover{transform:translateY(-1px);box-shadow:0 12px 24px rgba(8,127,140,.24)}
+#landing .login-footer,#landing .footer-note{color:#789096;font-size:11px;line-height:1.7}
+#landing .login-app-wrapper:before,#landing .login-app-wrapper:after{display:none!important}
+/* Registration card uses the same visual language and remains scrollable. */
+#landing #registerCard{max-height:none;overflow:visible}#landing #registerCard input,#landing #registerCard select,#landing #registerCard textarea{border-radius:11px}
+/* USER DASHBOARD APP FRAME */
+#userDashboard{min-height:100vh;background:linear-gradient(145deg,#cfe8e9 0%,#d9eeee 48%,#c8e3e4 100%);padding-bottom:24px;overflow-x:clip}
+/* Teal-tinted page surface below the notice bar; keep service cards crisp and white. */
+#userDashboard .dashboard-container{background:transparent}
+#userDashboard .common-service-section{background:linear-gradient(145deg,#d7eeee 0%,#cfe7e8 55%,#dceff0 100%)!important}
+#userDashboard .service-grid{background:transparent}
+#userDashboard .user-topbar{position:sticky;top:0;z-index:40;min-height:72px;padding:10px clamp(14px,3vw,34px);display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.96)!important;border-bottom:1px solid #e3edef!important;box-shadow:0 4px 18px rgba(17,61,70,.05)!important;color:#163a43;backdrop-filter:blur(16px)}
+#userDashboard .user-brand-mark{width:44px;height:44px;border-radius:13px;background:#e3f7f5!important;border:1px solid #c8efeb!important;color:#087f8c;overflow:hidden}
+#userDashboard .user-brand-mark img,#userDashboard .user-brand-mark image{max-width:100%;max-height:100%;object-fit:contain}
+#userDashboard .user-brand-wrap strong,#userDashboard .user-brand-wrap .brand-name{color:#173d45!important;font-size:15px;font-weight:850}
+#userDashboard .user-topbar button{border-radius:11px}#userDashboard .user-status-quick,#userDashboard .user-logout-quick{background:#f0f8f8!important;border:1px solid #dcebec!important;color:#31535b!important;font-weight:700}
+#userDashboard .dashboard-container{width:min(1240px,100%);margin:0 auto;padding:22px clamp(14px,3vw,30px) 36px}
+#userDashboard .user-banner{position:relative;isolation:isolate;min-height:190px!important;height:auto!important;margin:22px auto 0!important;width:calc(100% - clamp(28px,6vw,60px));max-width:1180px;padding:clamp(24px,4vw,42px)!important;overflow:hidden;border-radius:22px!important;background:linear-gradient(115deg,#075d68 0%,#087f8c 58%,#10a8a7 100%)!important;box-shadow:0 16px 34px rgba(8,100,111,.16)}
+#userDashboard .user-banner:before,#userDashboard .user-banner:after,#userDashboard .user-banner .shape,#userDashboard .user-banner .banner-shape{display:none!important;content:none!important}
+#userDashboard .banner-inner{position:relative;z-index:1;max-width:none;margin:0;width:100%}
+#userDashboard .user-banner h1,#userDashboard .user-banner h2,#userDashboard .user-banner h3{color:#fff!important;font-size:clamp(23px,3vw,34px);font-weight:850;line-height:1.25;margin-bottom:8px}
+#userDashboard .user-banner p,#userDashboard .user-banner span{color:rgba(255,255,255,.88)!important;line-height:1.7}
+#userDashboard .service-grid{width:100%;max-width:none;margin:0 auto;padding:22px 0 30px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+#userDashboard .service-card{min-width:0;border:1px solid #e0e9eb!important;border-radius:17px!important;padding:19px!important;background:#fff!important;box-shadow:0 7px 24px rgba(19,64,73,.045)!important;transition:transform .2s,border-color .2s,box-shadow .2s}
+#userDashboard .service-card:hover{transform:translateY(-3px);border-color:#a7dfdb!important;box-shadow:0 14px 28px rgba(19,64,73,.09)!important}
+#userDashboard .service-icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:14px;background:#e4f7f5!important;color:#087f8c;margin-bottom:13px}
+#userDashboard .service-card h3,#userDashboard .service-card h4{font-size:15px;line-height:1.45;color:#21434b;font-weight:800}
+#userDashboard .service-card p{font-size:12px;line-height:1.7;color:#6a8187}
+#userDashboard .service-card button,#userDashboard .service-card .btn{border-radius:10px;font-weight:750}
+#userDashboard input,#userDashboard select,#userDashboard textarea{max-width:100%;border-radius:11px}
+#userDashboard .user-bottom-nav{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);z-index:50;width:min(520px,calc(100% - 24px));padding:8px;display:flex;justify-content:space-around;gap:5px;border:1px solid rgba(219,234,236,.95);border-radius:18px;background:rgba(255,255,255,.96);box-shadow:0 12px 36px rgba(16,62,71,.16);backdrop-filter:blur(18px)}
+#userDashboard .user-bottom-nav a,#userDashboard .user-bottom-nav button{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 4px;border:0;border-radius:12px;background:transparent;color:#668087;font-size:10px;font-weight:750;text-decoration:none}
+#userDashboard .user-bottom-nav .active{background:#e2f7f4;color:#087f8c}
+/* keep page scrolling; do not trap forms in viewport-height cards */
+#landing,#landing .login-app-wrapper,#landing .login-card-area,#landing #loginCard,#landing #registerCard{max-height:none;overflow:visible}
+@media(max-width:900px){#landing .login-app-wrapper{grid-template-columns:minmax(0,1fr) minmax(320px,400px)}#userDashboard .service-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){#landing.app-login-page{align-items:flex-start;padding:14px 12px 24px;min-height:100svh}#landing .login-app-wrapper{width:100%;grid-template-columns:1fr;border-radius:22px}#landing .login-brand-area{padding:23px 22px;gap:14px}#landing .brand-logo{width:56px;height:56px;border-radius:15px}#landing .brand-content h1{font-size:24px}#landing .brand-description{font-size:13px;line-height:1.7}#landing .brand-features{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#landing .brand-feature{padding:9px}#landing .login-card-area{padding:24px 21px 27px}#landing .login-heading h2{font-size:25px}#userDashboard .user-topbar{min-height:62px;padding:8px 12px;gap:9px}#userDashboard .user-brand-wrap{min-width:0;gap:8px}#userDashboard .user-brand-mark{width:38px;height:38px;flex-basis:38px}#userDashboard .user-banner{width:calc(100% - 24px);min-height:165px!important;margin-top:14px!important;border-radius:17px!important;padding:24px 20px!important}#userDashboard .dashboard-container{padding:16px 12px 80px}#userDashboard .service-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;padding-top:16px}#userDashboard .service-card{padding:14px!important;border-radius:14px!important}#userDashboard .service-icon{width:42px;height:42px;border-radius:12px}#userDashboard .service-card h3,#userDashboard .service-card h4{font-size:13px}#userDashboard .user-bottom-nav{bottom:8px;width:calc(100% - 16px)}}
+@media(max-width:380px){#landing .brand-features{grid-template-columns:1fr}#userDashboard .service-grid{grid-template-columns:1fr}#userDashboard .user-logout-quick span{display:none}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+
+</head><body><div class="paper"><div class="hero"><h1>JANA ONLINE SERVICE</h1><div class="sub">USER MANAGEMENT REPORT · Confidential administrative record</div></div>
     <div class="summary"><div class="chip"><b>Total records:</b> ${rows.length}</div><div class="chip"><b>Active:</b> ${rows.filter(u=>String(u.status).toLowerCase()==="active").length}</div><div class="chip"><b>Inactive:</b> ${rows.filter(u=>String(u.status).toLowerCase()!=="active").length}</div><div class="chip"><b>Generated:</b> ${new Date().toLocaleString()}</div></div>${table}
-    <div class="foot">Generated from records currently loaded in the JOS Admin Panel. Store and share user data securely.</div></div><script>window.onload=()=>setTimeout(()=>window.print(),350);<\\/script></body></html>`);
+    <div class="foot">Generated from records currently loaded in the JOS Admin Panel. Store and share user data securely.</div></div><script>window.onload=()=>setTimeout(()=>window.print(),350);<\\/script>
+<style id="jos-background-medium-tone">
+  body {
+    background: linear-gradient(135deg, #d7e5ed 0%, #e2ebf2 48%, #cfdee8 100%) !important;
+  }
+  .admin-page, #adminPage {
+    background: linear-gradient(135deg, #d4e4ec 0%, #e0eaf1 52%, #ccdee8 100%) !important;
+  }
+</style>
+
+
+<style id="jos-profile-photo-qr-final-fix">
+/* Keep the registered profile photo perfectly circular */
+#profileContent .jos-profile-hero-grid .jos-profile-photo-ring{
+  width:92px !important;
+  height:92px !important;
+  min-width:92px !important;
+  min-height:92px !important;
+  flex:0 0 92px !important;
+  aspect-ratio:1 / 1 !important;
+  box-sizing:border-box !important;
+  border-radius:50% !important;
+  overflow:hidden !important;
+  padding:0 !important;
+  display:block !important;
+  background:#e8f2f5 !important;
+  border:4px solid #fff !important;
+  box-shadow:0 3px 12px rgba(0,0,0,.18) !important;
+}
+#profileContent #josProfileMainPhoto,
+#profileContent .jos-profile-photo-large,
+#profileContent .jos-profile-photo-initial{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  max-width:none !important;
+  max-height:none !important;
+  border-radius:50% !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+  overflow:hidden !important;
+}
+#profileContent .jos-profile-photo-initial{
+  display:grid !important;
+  place-items:center !important;
+}
+/* Remove the stray outline/empty rectangle around and below the QR */
+#profileContent .jos-profile-qr-panel{
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:rgba(255,255,255,.12) !important;
+  overflow:visible !important;
+}
+#profileContent .jos-profile-qr{
+  width:124px !important;
+  height:124px !important;
+  min-height:124px !important;
+  box-sizing:border-box !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  padding:4px !important;
+  margin:5px auto !important;
+  overflow:hidden !important;
+  background:#fff !important;
+  border-radius:8px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+#profileContent .jos-profile-qr img,
+#profileContent .jos-profile-qr canvas{
+  display:block !important;
+  position:static !important;
+  width:116px !important;
+  height:116px !important;
+  max-width:116px !important;
+  max-height:116px !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  margin:0 !important;
+}
+@media(max-width:560px){
+  #profileContent .jos-profile-hero-grid .jos-profile-photo-ring{
+    width:74px !important;height:74px !important;
+    min-width:74px !important;min-height:74px !important;
+    flex-basis:74px !important;
+  }
+  #profileContent .jos-profile-qr{
+    width:92px !important;height:92px !important;min-height:92px !important;
+  }
+  #profileContent .jos-profile-qr img,
+  #profileContent .jos-profile-qr canvas{
+    width:84px !important;height:84px !important;
+    max-width:84px !important;max-height:84px !important;
+  }
+}
+</style>
+
+
+<style id="jos-notification-responsive-final">
+/* Global modal styles: overlay is moved to BODY, so never scope these to #userDashboard. */
+#userNotificationOverlay{
+  position:fixed!important;inset:0!important;z-index:2147483000!important;
+  display:none!important;align-items:center!important;justify-content:center!important;
+  width:100%!important;height:100dvh!important;box-sizing:border-box!important;
+  padding:clamp(12px,3vw,28px)!important;overflow:hidden!important;
+  background:rgba(5,22,34,.66)!important;
+  -webkit-backdrop-filter:blur(9px)!important;backdrop-filter:blur(9px)!important;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .22s ease,visibility .22s ease!important;
+}
+#userNotificationOverlay.active{
+  display:flex!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;
+}
+#userNotificationOverlay .jos-notification-panel{
+  display:flex!important;flex-direction:column!important;position:relative!important;
+  width:min(500px,100%)!important;max-width:500px!important;
+  max-height:min(780px,calc(100dvh - 32px))!important;height:auto!important;
+  min-height:0!important;margin:auto!important;overflow:hidden!important;
+  border:1px solid #dce9ed!important;border-radius:25px!important;
+  background:#fff!important;box-shadow:0 30px 90px rgba(0,18,32,.34)!important;
+  transform:translateY(14px) scale(.985);transition:transform .24s ease!important;
+}
+#userNotificationOverlay.active .jos-notification-panel{transform:translateY(0) scale(1)!important}
+#userNotificationOverlay .jos-notification-panel-head{
+  display:flex!important;flex-direction:row!important;align-items:flex-start!important;
+  justify-content:space-between!important;gap:14px!important;flex:0 0 auto!important;
+  width:100%!important;box-sizing:border-box!important;padding:22px 22px 18px!important;
+  background:linear-gradient(135deg,#e9f9fa 0%,#fff 78%)!important;
+  border-bottom:1px solid #e8eff1!important;
+}
+#userNotificationOverlay .jos-notification-panel-head>div{flex:1 1 auto!important;min-width:0!important}
+#userNotificationOverlay .jos-notification-kicker{display:block!important;font-size:10px!important;letter-spacing:1.25px!important;font-weight:900!important;color:#078795!important}
+#userNotificationOverlay .jos-notification-panel-head h2{margin:5px 0 5px!important;font-size:25px!important;line-height:1.2!important;font-weight:850!important;color:#14394a!important}
+#userNotificationOverlay .jos-notification-panel-head p{margin:0!important;font-size:12px!important;line-height:1.6!important;color:#687d89!important}
+#userNotificationOverlay .jos-notification-close{
+  display:grid!important;place-items:center!important;flex:0 0 40px!important;
+  width:40px!important;height:40px!important;margin:0!important;padding:0!important;
+  border:1px solid #dce9ed!important;border-radius:13px!important;background:#fff!important;
+  color:#244858!important;font-size:25px!important;line-height:1!important;
+  box-shadow:0 4px 13px rgba(0,40,55,.08)!important;cursor:pointer!important;
+}
+#userNotificationOverlay .jos-notification-list{
+  display:block!important;flex:1 1 auto!important;min-height:0!important;
+  max-height:55dvh!important;overflow-y:auto!important;overscroll-behavior:contain!important;
+  box-sizing:border-box!important;padding:16px!important;background:#f8fbfc!important;
+}
+#userNotificationOverlay .jos-notification-state{
+  display:flex!important;flex-direction:column!important;align-items:center!important;
+  justify-content:center!important;gap:0!important;min-height:260px!important;
+  height:auto!important;box-sizing:border-box!important;padding:28px 18px!important;
+  text-align:center!important;border:1px dashed #dce8eb!important;
+  border-radius:19px!important;background:linear-gradient(180deg,#fff,#f8fcfd)!important;
+}
+#userNotificationOverlay .jos-notification-state-icon{
+  display:grid!important;place-items:center!important;width:66px!important;height:66px!important;
+  margin:0 0 15px!important;border-radius:22px!important;background:#eaf7f8!important;
+  color:#078895!important;font-size:27px!important;
+}
+#userNotificationOverlay .jos-notification-error .jos-notification-state-icon{background:#fff3e9!important;color:#d97706!important}
+#userNotificationOverlay .jos-notification-error-kicker{margin:0 0 6px!important;color:#0b8792!important;font-size:9px!important;font-weight:900!important;letter-spacing:1.4px!important}
+#userNotificationOverlay .jos-notification-state h3{margin:0 0 8px!important;color:#18394a!important;font-size:17px!important;line-height:1.4!important;font-weight:850!important}
+#userNotificationOverlay .jos-notification-state p{max-width:340px!important;margin:0!important;color:#667b88!important;font-size:13px!important;line-height:1.8!important}
+#userNotificationOverlay .jos-notification-retry{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;
+  min-height:44px!important;margin:19px 0 0!important;padding:0 20px!important;
+  border:0!important;border-radius:13px!important;background:linear-gradient(135deg,#087f8c,#0da5a6)!important;
+  color:#fff!important;font-size:13px!important;font-weight:800!important;
+  box-shadow:0 7px 18px rgba(8,127,140,.22)!important;cursor:pointer!important;
+}
+#userNotificationOverlay .jos-notification-error-detail{display:none!important}
+#userNotificationOverlay .jos-notification-panel-foot{
+  display:flex!important;flex:0 0 auto!important;align-items:center!important;
+  justify-content:space-between!important;gap:12px!important;box-sizing:border-box!important;
+  padding:13px 18px!important;background:#fff!important;border-top:1px solid #e9eff1!important;
+  color:#71838e!important;font-size:11px!important;
+}
+#userNotificationOverlay .jos-notification-panel-foot .btn{
+  min-height:40px!important;padding:0 16px!important;border-radius:12px!important;
+  font-size:12px!important;font-weight:800!important;
+}
+#userNotificationOverlay .jos-notification-item{width:100%!important;box-sizing:border-box!important}
+@media(max-width:600px){
+  #userNotificationOverlay{padding:12px!important}
+  #userNotificationOverlay .jos-notification-panel{
+    width:100%!important;max-width:440px!important;max-height:calc(100dvh - 24px)!important;
+    border-radius:22px!important;
+  }
+  #userNotificationOverlay .jos-notification-panel-head{padding:18px 17px 15px!important}
+  #userNotificationOverlay .jos-notification-panel-head h2{font-size:22px!important}
+  #userNotificationOverlay .jos-notification-close{flex-basis:38px!important;width:38px!important;height:38px!important}
+  #userNotificationOverlay .jos-notification-list{max-height:52dvh!important;padding:12px!important}
+  #userNotificationOverlay .jos-notification-state{min-height:230px!important;padding:23px 15px!important}
+  #userNotificationOverlay .jos-notification-state p{font-size:12px!important}
+  #userNotificationOverlay .jos-notification-panel-foot{padding:11px 14px!important}
+}
+@media(max-height:620px){
+  #userNotificationOverlay .jos-notification-panel{max-height:calc(100dvh - 18px)!important}
+  #userNotificationOverlay .jos-notification-list{max-height:42dvh!important}
+  #userNotificationOverlay .jos-notification-state{min-height:190px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  #userNotificationOverlay,#userNotificationOverlay .jos-notification-panel{transition:none!important}
+}
+</style>
+
+
+
+<!-- JOS NOTIFICATION BELL: LARGE, CLEAR, MODERN MOBILE BUTTON -->
+<style id="jos-notification-bell-modern-override">
+  /* Use the ID selector so this remains effective even if the header is outside #userDashboard. */
+  #userNotificationBtn {
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 54px !important;
+    width: 54px !important;
+    min-width: 54px !important;
+    max-width: 54px !important;
+    height: 54px !important;
+    min-height: 54px !important;
+    max-height: 54px !important;
+    padding: 0 !important;
+    margin: 0 5px !important;
+    overflow: visible !important;
+    border: 1px solid rgba(255,255,255,.9) !important;
+    border-radius: 18px !important;
+    background: linear-gradient(145deg,#ffffff 0%,#e8fbfc 55%,#d4f3f4 100%) !important;
+    color: #087f8c !important;
+    box-shadow: 0 5px 15px rgba(0,45,58,.20), inset 0 1px 0 #ffffff !important;
+    cursor: pointer !important;
+    -webkit-tap-highlight-color: transparent !important;
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease !important;
+  }
+  #userNotificationBtn > i {
+    display: inline-block !important;
+    font-family: "Font Awesome 6 Free","Font Awesome 5 Free" !important;
+    font-weight: 900 !important;
+    font-size: 25px !important;
+    line-height: 1 !important;
+    color: #087f8c !important;
+    text-shadow: 0 2px 3px rgba(8,127,140,.15) !important;
+  }
+  #userNotificationBtn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 19px rgba(0,45,58,.24) !important;
+    filter: saturate(1.08) !important;
+  }
+  #userNotificationBtn:active {
+    transform: scale(.94) !important;
+  }
+  #userNotificationBtn:focus-visible {
+    outline: 3px solid #ffe082 !important;
+    outline-offset: 3px !important;
+  }
+  #userNotificationBtn .jos-notification-count {
+    position: absolute !important;
+    top: -7px !important;
+    right: -7px !important;
+    z-index: 5 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 22px !important;
+    height: 22px !important;
+    padding: 0 5px !important;
+    border: 2px solid #ffffff !important;
+    border-radius: 999px !important;
+    background: linear-gradient(135deg,#ff5252,#d7193f) !important;
+    color: #ffffff !important;
+    font: 800 11px/1 Arial,sans-serif !important;
+    box-shadow: 0 3px 8px rgba(150,0,25,.25) !important;
+  }
+  #userNotificationBtn .jos-notification-count[hidden] {
+    display: none !important;
+  }
+  @media (max-width:600px) {
+    #userNotificationBtn {
+      flex-basis: 52px !important;
+      width: 52px !important;
+      min-width: 52px !important;
+      max-width: 52px !important;
+      height: 52px !important;
+      min-height: 52px !important;
+      max-height: 52px !important;
+      border-radius: 17px !important;
+    }
+    #userNotificationBtn > i { font-size: 24px !important; }
+  }
+  @media (max-width:360px) {
+    #userNotificationBtn {
+      flex-basis: 48px !important;
+      width: 48px !important;
+      min-width: 48px !important;
+      max-width: 48px !important;
+      height: 48px !important;
+      min-height: 48px !important;
+      max-height: 48px !important;
+      border-radius: 15px !important;
+      margin-left: 2px !important;
+      margin-right: 2px !important;
+    }
+    #userNotificationBtn > i { font-size: 22px !important; }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    #userNotificationBtn { transition: none !important; }
+  }
+</style>
+
+</body></html>`);
     w.document.close();
   }
 }
@@ -7904,6 +10167,12 @@ async function restoreSession(){
       sessionStorage.getItem(
         "jos_admin"
       );
+
+
+    if(savedUser){
+      sessionStorage.removeItem("jos_user");
+    }
+
 
     if(savedAdmin){
 
@@ -8914,44 +11183,25 @@ document.addEventListener("DOMContentLoaded", function () {
     ================================================= */
 
     function setLoginType(type) {
-
-        if (!loginType) return;
-
-        loginType.value = type;
-
-        if (userBtn) {
-            userBtn.classList.toggle(
-                "active",
-                type === "user"
-            );
-        }
-
-        if (adminBtn) {
-            adminBtn.classList.toggle(
-                "active",
-                type === "admin"
-            );
-        }
-
-
-        /* Change placeholder */
-
+        const selectedType = "admin";
+        if (loginType) loginType.value = selectedType;
+        if (userBtn) userBtn.classList.toggle("active", selectedType === "user");
+        if (adminBtn) adminBtn.classList.toggle("active", selectedType === "admin");
         if (loginId) {
-
-            if (type === "admin") {
-
-                loginId.placeholder =
-                    "Admin ID / Username";
-
-            } else {
-
-                loginId.placeholder =
-                    "JOS10001 / Mobile Number";
-
-            }
-
+            loginId.placeholder = selectedType === "admin"
+                ? "আপনার Admin ID দিন"
+                : "আপনার User Profile ID দিন";
         }
-
+        const idLabel = document.querySelector('label[for="loginId"]');
+        if (idLabel) {
+            const icon = idLabel.querySelector("i");
+            idLabel.textContent = selectedType === "admin" ? " Admin ID" : " Profile ID / User ID";
+            if (icon) idLabel.prepend(icon);
+        }
+        const title = document.getElementById("loginTitle");
+        const subtitle = document.getElementById("loginSubtitle");
+        if (title) title.textContent = selectedType === "admin" ? "Administrator Login" : "Welcome Back";
+        if (subtitle) subtitle.textContent = selectedType === "admin" ? "Admin Panel-এ প্রবেশ করুন" : "আপনার Account-এ Login করুন";
     }
 
 
@@ -8975,6 +11225,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
     }
+
+    // This standalone page is restricted to Admin login.
+    setLoginType("admin");
 
 
     /* =================================================
@@ -9426,51 +11679,91 @@ function closePopup(){
 }
 
 
+
 /* =====================================================
-  iframe update service
+   JOS THREE OPTION FULL SCREEN IFRAME SYSTEM
 ===================================================== */
 
-
-function openMyIframePage(){
+function openMyIframePage(option) {
 
   const viewer = document.getElementById("myIframeViewer");
   const frame  = document.getElementById("myIframeFrame");
 
-  /* এখানে আপনার Page URL দিন */
-  const pageURL = "https://suman9907bit.github.io/updateservice-fjdgjfdsjgkjfgkjfkdgk/";
+  if (!viewer || !frame) {
+    console.error("Iframe Viewer or Frame not found!");
+    alert("Iframe system HTML পাওয়া যায়নি।");
+    return;
+  }
 
+  /* THREE PAGE URL */
+  const pageLinks = {
+    service: "https://suman9907bit.github.io/updateservice-fjdgjfdsjgkjfgkjfkdgk/",
+    typing: "https://suman9907bit.github.io/typingtestkdljufgijdhighjdfsjgijdgifdj/",
+    shopping: "https://suman9907bit.github.io/ecomlivefgfgfgdgfvvxcchfgfty/",
+
+    /* নতুন পেজের URL এখানে বসাবেন */
+    photo: "https://suman9907bit.github.io/photocrop-djkhfjdhfjdjg/",
+    composer: "https://suman9907bit.github.io/image-compose/",
+    money: "https://suman9907bit.github.io/Manycalculator/"
+  };
+
+  const pageURL = pageLinks[option];
+
+  if (!pageURL) {
+    console.error("Invalid iframe option:", option);
+    alert("সঠিক পেজ নির্বাচন করা হয়নি!");
+    return;
+  }
+
+  if (pageURL.startsWith("PASTE_")) {
+    alert("এই Option-এর Page URL এখনও বসানো হয়নি। কোডের pageLinks অংশে URL দিন।");
+    return;
+  }
+
+  /* LOAD SELECTED PAGE */
   frame.src = pageURL;
 
   viewer.style.display = "block";
+  viewer.style.visibility = "visible";
 
-  /* Main page scroll বন্ধ */
+  /* STOP BACKGROUND SCROLL */
   document.body.style.overflow = "hidden";
+
 }
 
 
-function closeMyIframePage(){
+/* =====================================================
+   CLOSE IFRAME
+===================================================== */
+
+function closeMyIframePage() {
 
   const viewer = document.getElementById("myIframeViewer");
   const frame  = document.getElementById("myIframeFrame");
 
-  viewer.style.display = "none";
+  if (!viewer || !frame) return;
 
-  /* iframe বন্ধ করে memory/data reset */
+  viewer.style.display = "none";
+  viewer.style.visibility = "hidden";
+
   frame.src = "about:blank";
 
-  /* Main page scroll আবার চালু */
   document.body.style.overflow = "";
+
 }
 
 
-/* ESC চাপলেও iframe বন্ধ হবে */
-document.addEventListener("keydown", function(event){
+/* =====================================================
+   ESC KEY CLOSE
+===================================================== */
 
-  if(event.key === "Escape"){
+document.addEventListener("keydown", function(event) {
+
+  if (event.key === "Escape") {
 
     const viewer = document.getElementById("myIframeViewer");
 
-    if(viewer && viewer.style.display === "block"){
+    if (viewer && getComputedStyle(viewer).display !== "none") {
       closeMyIframePage();
     }
 
@@ -9663,133 +11956,355 @@ document.addEventListener("keydown", function(event){
 </script>
 
 
+<style id="jos-background-medium-tone">
+  body {
+    background: linear-gradient(135deg, #d7e5ed 0%, #e2ebf2 48%, #cfdee8 100%) !important;
+  }
+  .admin-page, #adminPage {
+    background: linear-gradient(135deg, #d4e4ec 0%, #e0eaf1 52%, #ccdee8 100%) !important;
+  }
 
-<style id="jos-windows7-theme">
-/* JOS classic Windows 7 Aero theme — visual layer only */
-:root{
-  --jos-aero-blue:#1684c7;
-  --jos-aero-deep:#075b91;
-  --jos-aero-light:#dff3ff;
-  --jos-aero-border:#8bbbd8;
-  --jos-aero-glow:rgba(255,255,255,.72);
-  --primary:var(--jos-aero-deep);
-  --primary2:var(--jos-aero-blue);
-  --dark:#123b58;
-  --light:#edf7fd;
-  --border:#b8d5e8;
-  --shadow:0 3px 10px rgba(20,65,95,.22);
+/* JOS PROFILE PHOTO UPLOAD + AVATARS */
+.jos-photo-upload{display:flex;align-items:center;gap:15px;padding:14px;border:1px dashed #9eb4cf;border-radius:16px;background:linear-gradient(135deg,#f8fbff,#eef5ff)}
+.jos-photo-upload img{width:82px;height:82px;flex:0 0 82px;object-fit:cover;border-radius:50%;border:3px solid #fff;box-shadow:0 4px 16px #1e3a5f20}
+.jos-photo-upload-info{display:flex;flex-direction:column;gap:5px;min-width:0}
+.jos-photo-upload-info strong{font-size:13px;color:#183153}
+.jos-photo-upload-info small{font-size:11px;color:#64748b}
+.jos-photo-upload-info input{max-width:100%;font-size:12px}
+.jos-user-avatar{width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;border-radius:50%;background:#e8eef7;color:#24527a;font-weight:800;border:2px solid #fff;vertical-align:middle;object-fit:cover}
+.jos-profile-photo-large{width:96px;height:96px;object-fit:cover;border-radius:50%;border:4px solid #fff;box-shadow:0 8px 24px #0f172a20}
+.jos-admin-user{display:flex;align-items:center;gap:9px;min-width:150px}
+@media(max-width:480px){.jos-photo-upload{align-items:flex-start;padding:10px;gap:10px}.jos-photo-upload img{width:68px;height:68px;flex-basis:68px}}
+
+
+/* Profile photo + adjacent QR layout */
+.jos-profile-hero-grid{display:grid;grid-template-columns:92px minmax(0,1fr) 150px;align-items:center;gap:15px}
+.jos-profile-hero-grid .jos-profile-photo-ring{width:92px;height:92px;flex:none;overflow:hidden;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#e8f2f5;border:4px solid #fff}
+.jos-profile-hero-grid .jos-profile-photo-large{display:block;width:100%;height:100%;object-fit:cover;object-position:center;border-radius:50%}
+.jos-profile-photo-initial{font-size:34px;font-weight:800;color:#087f8c}
+.jos-profile-qr-panel{background:#fff;color:#173b4b;border-radius:12px;padding:8px 6px;text-align:center;min-width:0}
+.jos-profile-qr-panel b{font-size:9px;letter-spacing:.7px}
+.jos-profile-qr{width:124px;height:124px;margin:5px auto;display:grid;place-items:center;background:#fff;padding:4px}
+.jos-profile-qr img,.jos-profile-qr canvas{width:116px!important;height:116px!important;max-width:100%}
+.jos-profile-qr-panel small{font-size:8px;letter-spacing:.5px}
+@media(max-width:560px){.jos-profile-hero-grid{grid-template-columns:74px minmax(0,1fr);gap:10px;padding:13px}.jos-profile-hero-grid .jos-profile-photo-ring{width:74px;height:74px}.jos-profile-hero-grid .jos-profile-qr-panel{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:12px}.jos-profile-hero-grid .jos-profile-qr{width:92px;height:92px;margin:0}.jos-profile-hero-grid .jos-profile-qr img,.jos-profile-hero-grid .jos-profile-qr canvas{width:84px!important;height:84px!important}.jos-profile-hero-text h3{font-size:16px;overflow-wrap:anywhere}}
+</style>
+
+
+<style id="jos-profile-photo-qr-final-fix">
+/* Keep the registered profile photo perfectly circular */
+#profileContent .jos-profile-hero-grid .jos-profile-photo-ring{
+  width:92px !important;
+  height:92px !important;
+  min-width:92px !important;
+  min-height:92px !important;
+  flex:0 0 92px !important;
+  aspect-ratio:1 / 1 !important;
+  box-sizing:border-box !important;
+  border-radius:50% !important;
+  overflow:hidden !important;
+  padding:0 !important;
+  display:block !important;
+  background:#e8f2f5 !important;
+  border:4px solid #fff !important;
+  box-shadow:0 3px 12px rgba(0,0,0,.18) !important;
 }
-body{
-  background:linear-gradient(#eaf5fc 0%,#cbdfee 48%,#e8f3fb 100%);
-  color:#18384d;
+#profileContent #josProfileMainPhoto,
+#profileContent .jos-profile-photo-large,
+#profileContent .jos-profile-photo-initial{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  max-width:none !important;
+  max-height:none !important;
+  border-radius:50% !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+  overflow:hidden !important;
 }
-button,.btn,.profile-btn,.user-menu-toggle,.viewer-close,.close-btn{
-  border-radius:4px!important;
-  border:1px solid #7aa8c5;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 1px 2px rgba(0,35,65,.14);
+#profileContent .jos-profile-photo-initial{
+  display:grid !important;
+  place-items:center !important;
 }
-.btn-primary,.professional-login-btn{
-  background:linear-gradient(to bottom,#62b8ef 0%,#278fd0 48%,#0871b6 50%,#075b98 100%)!important;
-  border:1px solid #07558d!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.65),0 2px 4px rgba(0,48,80,.2)!important;
+/* Remove the stray outline/empty rectangle around and below the QR */
+#profileContent .jos-profile-qr-panel{
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:rgba(255,255,255,.12) !important;
+  overflow:visible !important;
 }
-.btn-success{background:linear-gradient(#8ad78d,#36a74b)!important;border-color:#268238!important}
-.btn-danger,.viewer-close{background:linear-gradient(#ff9c9c,#d93434)!important;border-color:#a51e1e!important}
-.btn-warning{background:linear-gradient(#ffeaa0,#e5a92d)!important;border-color:#b98720!important;color:#3d2c00!important}
-.btn-light{background:linear-gradient(#fff,#d9effb)!important;color:#174e70!important}
-.btn-dark{background:linear-gradient(#6c8291,#344c5c)!important}
-input,select,textarea,.form-control,.modern-input{
-  border-radius:3px!important;
-  border-color:#a7c5d9!important;
-  box-shadow:inset 0 1px 2px rgba(25,65,90,.08);
+#profileContent .jos-profile-qr{
+  width:124px !important;
+  height:124px !important;
+  min-height:124px !important;
+  box-sizing:border-box !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  padding:4px !important;
+  margin:5px auto !important;
+  overflow:hidden !important;
+  background:#fff !important;
+  border-radius:8px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
 }
-input:focus,select:focus,textarea:focus,.form-control:focus,.modern-input:focus-within{
-  border-color:#2a9de0!important;
-  box-shadow:0 0 0 2px rgba(56,164,225,.2),inset 0 1px 2px rgba(25,65,90,.06)!important;
+#profileContent .jos-profile-qr img,
+#profileContent .jos-profile-qr canvas{
+  display:block !important;
+  position:static !important;
+  width:116px !important;
+  height:116px !important;
+  max-width:116px !important;
+  max-height:116px !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  margin:0 !important;
 }
-.auth-card,.register-card,.stat-card,.admin-section,.admin-service,.modal-box,
-.common-service-card,.common-service-modal,.professional-login-card,.login-app-wrapper{
-  border:1px solid #a9c7dc!important;
-  border-radius:5px!important;
-  box-shadow:0 2px 7px rgba(25,65,90,.18),inset 0 1px 0 rgba(255,255,255,.8)!important;
-}
-.auth-card,.register-card,.admin-section,.stat-card,.modal-box,.common-service-card{
-  background:linear-gradient(to bottom,#fff 0%,#f5faff 100%)!important;
-}
-.topbar,#userDashboard .user-topbar,.viewer-bar{
-  background:linear-gradient(to bottom,#45a9e8 0%,#1683c5 48%,#0864a2 50%,#07558f 100%)!important;
-  border-bottom:1px solid #064b7d!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.48),0 2px 5px rgba(0,45,75,.25)!important;
-}
-.brand,.user-brand-text .brand{color:#fff!important;text-shadow:0 1px 2px #06466f}
-.notice-bar{
-  background:linear-gradient(to bottom,#4fb8ed 0%,#1787c8 48%,#0867a4 50%,#07568d 100%)!important;
-}
-.notice-label{
-  background:linear-gradient(#e9f8ff,#a9def7)!important;
-  color:#104b70!important;
-  border-right:1px solid #6ca8cc;
-}
-.user-banner{
-  border-bottom:3px solid #8ab9d8;
-}
-.common-service-section{
-  background:linear-gradient(#f3f9fd,#dcebf6)!important;
-}
-.common-service-badge,.common-service-icon,.common-service-link,.registration-open{
-  border-radius:4px!important;
-  background:linear-gradient(#fff,#dceffa)!important;
-  border:1px solid #b0d0e4!important;
-}
-.common-service-card::before{background:linear-gradient(90deg,#0874b5,#70c6f1)!important}
-.common-service-card:hover{transform:translateY(-2px)!important;border-color:#5aabd9!important}
-.common-modal-header{
-  background:linear-gradient(to bottom,#4fb5e9,#1681c0 48%,#08639e 50%,#07558d)!important;
-}
-.login-brand-area{
-  background:linear-gradient(145deg,#64b8e8 0%,#278bc8 48%,#0867a6 100%)!important;
-}
-.app-login-page{
-  background:linear-gradient(135deg,#eef8ff,#c6deef 55%,#f8fcff)!important;
-}
-.login-bg-shape{opacity:.22}
-.login-type-btn,.modern-input,.profile-item,.credential-box{
-  border-radius:4px!important;
-}
-.login-type-btn.active{
-  background:linear-gradient(#f7fcff,#d5edfb)!important;
-  border-color:#3b9ed5!important;
-}
-th{
-  background:linear-gradient(#f8fdff,#d8eaf5)!important;
-  color:#194b6b!important;
-  border-bottom:1px solid #9cbfd6!important;
-}
-.status{border-radius:3px!important}
-.modal-head,.modal-footer{
-  background:linear-gradient(#fff,#e8f3fa);
-}
-.toast,.loader-box{
-  border-radius:4px!important;
-  border:1px solid #7da8c5;
-}
-button:hover,.btn:hover{filter:brightness(1.04)}
-button:active,.btn:active{filter:brightness(.96);transform:translateY(1px)}
-@media(max-width:700px){
-  .auth-card,.register-card,.admin-section,.stat-card,.common-service-card{box-shadow:0 2px 5px rgba(25,65,90,.14)!important}
-  .topbar,#userDashboard .user-topbar{box-shadow:0 2px 4px rgba(0,45,75,.2)!important}
+@media(max-width:560px){
+  #profileContent .jos-profile-hero-grid .jos-profile-photo-ring{
+    width:74px !important;height:74px !important;
+    min-width:74px !important;min-height:74px !important;
+    flex-basis:74px !important;
+  }
+  #profileContent .jos-profile-qr{
+    width:92px !important;height:92px !important;min-height:92px !important;
+  }
+  #profileContent .jos-profile-qr img,
+  #profileContent .jos-profile-qr canvas{
+    width:84px !important;height:84px !important;
+    max-width:84px !important;max-height:84px !important;
+  }
 }
 </style>
-<script>
-/* Keep Android/browser top-bar color aligned with the Windows 7 blue theme. */
-(function(){
-  var color = '#0867a6';
-  var meta = document.querySelector('meta[name="theme-color"]');
-  if(meta) meta.setAttribute('content', color);
-  document.documentElement.style.setProperty('--jos-aero-blue', '#1684c7');
-  document.documentElement.style.setProperty('--jos-aero-deep', '#075b91');
-})();
-</script>
 
+
+<style id="jos-notification-responsive-final">
+/* Global modal styles: overlay is moved to BODY, so never scope these to #userDashboard. */
+#userNotificationOverlay{
+  position:fixed!important;inset:0!important;z-index:2147483000!important;
+  display:none!important;align-items:center!important;justify-content:center!important;
+  width:100%!important;height:100dvh!important;box-sizing:border-box!important;
+  padding:clamp(12px,3vw,28px)!important;overflow:hidden!important;
+  background:rgba(5,22,34,.66)!important;
+  -webkit-backdrop-filter:blur(9px)!important;backdrop-filter:blur(9px)!important;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .22s ease,visibility .22s ease!important;
+}
+#userNotificationOverlay.active{
+  display:flex!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;
+}
+#userNotificationOverlay .jos-notification-panel{
+  display:flex!important;flex-direction:column!important;position:relative!important;
+  width:min(500px,100%)!important;max-width:500px!important;
+  max-height:min(780px,calc(100dvh - 32px))!important;height:auto!important;
+  min-height:0!important;margin:auto!important;overflow:hidden!important;
+  border:1px solid #dce9ed!important;border-radius:25px!important;
+  background:#fff!important;box-shadow:0 30px 90px rgba(0,18,32,.34)!important;
+  transform:translateY(14px) scale(.985);transition:transform .24s ease!important;
+}
+#userNotificationOverlay.active .jos-notification-panel{transform:translateY(0) scale(1)!important}
+#userNotificationOverlay .jos-notification-panel-head{
+  display:flex!important;flex-direction:row!important;align-items:flex-start!important;
+  justify-content:space-between!important;gap:14px!important;flex:0 0 auto!important;
+  width:100%!important;box-sizing:border-box!important;padding:22px 22px 18px!important;
+  background:linear-gradient(135deg,#e9f9fa 0%,#fff 78%)!important;
+  border-bottom:1px solid #e8eff1!important;
+}
+#userNotificationOverlay .jos-notification-panel-head>div{flex:1 1 auto!important;min-width:0!important}
+#userNotificationOverlay .jos-notification-kicker{display:block!important;font-size:10px!important;letter-spacing:1.25px!important;font-weight:900!important;color:#078795!important}
+#userNotificationOverlay .jos-notification-panel-head h2{margin:5px 0 5px!important;font-size:25px!important;line-height:1.2!important;font-weight:850!important;color:#14394a!important}
+#userNotificationOverlay .jos-notification-panel-head p{margin:0!important;font-size:12px!important;line-height:1.6!important;color:#687d89!important}
+#userNotificationOverlay .jos-notification-close{
+  display:grid!important;place-items:center!important;flex:0 0 40px!important;
+  width:40px!important;height:40px!important;margin:0!important;padding:0!important;
+  border:1px solid #dce9ed!important;border-radius:13px!important;background:#fff!important;
+  color:#244858!important;font-size:25px!important;line-height:1!important;
+  box-shadow:0 4px 13px rgba(0,40,55,.08)!important;cursor:pointer!important;
+}
+#userNotificationOverlay .jos-notification-list{
+  display:block!important;flex:1 1 auto!important;min-height:0!important;
+  max-height:55dvh!important;overflow-y:auto!important;overscroll-behavior:contain!important;
+  box-sizing:border-box!important;padding:16px!important;background:#f8fbfc!important;
+}
+#userNotificationOverlay .jos-notification-state{
+  display:flex!important;flex-direction:column!important;align-items:center!important;
+  justify-content:center!important;gap:0!important;min-height:260px!important;
+  height:auto!important;box-sizing:border-box!important;padding:28px 18px!important;
+  text-align:center!important;border:1px dashed #dce8eb!important;
+  border-radius:19px!important;background:linear-gradient(180deg,#fff,#f8fcfd)!important;
+}
+#userNotificationOverlay .jos-notification-state-icon{
+  display:grid!important;place-items:center!important;width:66px!important;height:66px!important;
+  margin:0 0 15px!important;border-radius:22px!important;background:#eaf7f8!important;
+  color:#078895!important;font-size:27px!important;
+}
+#userNotificationOverlay .jos-notification-error .jos-notification-state-icon{background:#fff3e9!important;color:#d97706!important}
+#userNotificationOverlay .jos-notification-error-kicker{margin:0 0 6px!important;color:#0b8792!important;font-size:9px!important;font-weight:900!important;letter-spacing:1.4px!important}
+#userNotificationOverlay .jos-notification-state h3{margin:0 0 8px!important;color:#18394a!important;font-size:17px!important;line-height:1.4!important;font-weight:850!important}
+#userNotificationOverlay .jos-notification-state p{max-width:340px!important;margin:0!important;color:#667b88!important;font-size:13px!important;line-height:1.8!important}
+#userNotificationOverlay .jos-notification-retry{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;
+  min-height:44px!important;margin:19px 0 0!important;padding:0 20px!important;
+  border:0!important;border-radius:13px!important;background:linear-gradient(135deg,#087f8c,#0da5a6)!important;
+  color:#fff!important;font-size:13px!important;font-weight:800!important;
+  box-shadow:0 7px 18px rgba(8,127,140,.22)!important;cursor:pointer!important;
+}
+#userNotificationOverlay .jos-notification-error-detail{display:none!important}
+#userNotificationOverlay .jos-notification-panel-foot{
+  display:flex!important;flex:0 0 auto!important;align-items:center!important;
+  justify-content:space-between!important;gap:12px!important;box-sizing:border-box!important;
+  padding:13px 18px!important;background:#fff!important;border-top:1px solid #e9eff1!important;
+  color:#71838e!important;font-size:11px!important;
+}
+#userNotificationOverlay .jos-notification-panel-foot .btn{
+  min-height:40px!important;padding:0 16px!important;border-radius:12px!important;
+  font-size:12px!important;font-weight:800!important;
+}
+#userNotificationOverlay .jos-notification-item{width:100%!important;box-sizing:border-box!important}
+@media(max-width:600px){
+  #userNotificationOverlay{padding:12px!important}
+  #userNotificationOverlay .jos-notification-panel{
+    width:100%!important;max-width:440px!important;max-height:calc(100dvh - 24px)!important;
+    border-radius:22px!important;
+  }
+  #userNotificationOverlay .jos-notification-panel-head{padding:18px 17px 15px!important}
+  #userNotificationOverlay .jos-notification-panel-head h2{font-size:22px!important}
+  #userNotificationOverlay .jos-notification-close{flex-basis:38px!important;width:38px!important;height:38px!important}
+  #userNotificationOverlay .jos-notification-list{max-height:52dvh!important;padding:12px!important}
+  #userNotificationOverlay .jos-notification-state{min-height:230px!important;padding:23px 15px!important}
+  #userNotificationOverlay .jos-notification-state p{font-size:12px!important}
+  #userNotificationOverlay .jos-notification-panel-foot{padding:11px 14px!important}
+}
+@media(max-height:620px){
+  #userNotificationOverlay .jos-notification-panel{max-height:calc(100dvh - 18px)!important}
+  #userNotificationOverlay .jos-notification-list{max-height:42dvh!important}
+  #userNotificationOverlay .jos-notification-state{min-height:190px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  #userNotificationOverlay,#userNotificationOverlay .jos-notification-panel{transition:none!important}
+}
+</style>
+
+
+
+<!-- JOS NOTIFICATION BELL: LARGE, CLEAR, MODERN MOBILE BUTTON -->
+<style id="jos-notification-bell-modern-override">
+  /* Use the ID selector so this remains effective even if the header is outside #userDashboard. */
+  #userNotificationBtn {
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 54px !important;
+    width: 54px !important;
+    min-width: 54px !important;
+    max-width: 54px !important;
+    height: 54px !important;
+    min-height: 54px !important;
+    max-height: 54px !important;
+    padding: 0 !important;
+    margin: 0 5px !important;
+    overflow: visible !important;
+    border: 1px solid rgba(255,255,255,.9) !important;
+    border-radius: 18px !important;
+    background: linear-gradient(145deg,#ffffff 0%,#e8fbfc 55%,#d4f3f4 100%) !important;
+    color: #087f8c !important;
+    box-shadow: 0 5px 15px rgba(0,45,58,.20), inset 0 1px 0 #ffffff !important;
+    cursor: pointer !important;
+    -webkit-tap-highlight-color: transparent !important;
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease !important;
+  }
+  #userNotificationBtn > i {
+    display: inline-block !important;
+    font-family: "Font Awesome 6 Free","Font Awesome 5 Free" !important;
+    font-weight: 900 !important;
+    font-size: 25px !important;
+    line-height: 1 !important;
+    color: #087f8c !important;
+    text-shadow: 0 2px 3px rgba(8,127,140,.15) !important;
+  }
+  #userNotificationBtn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 19px rgba(0,45,58,.24) !important;
+    filter: saturate(1.08) !important;
+  }
+  #userNotificationBtn:active {
+    transform: scale(.94) !important;
+  }
+  #userNotificationBtn:focus-visible {
+    outline: 3px solid #ffe082 !important;
+    outline-offset: 3px !important;
+  }
+  #userNotificationBtn .jos-notification-count {
+    position: absolute !important;
+    top: -7px !important;
+    right: -7px !important;
+    z-index: 5 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 22px !important;
+    height: 22px !important;
+    padding: 0 5px !important;
+    border: 2px solid #ffffff !important;
+    border-radius: 999px !important;
+    background: linear-gradient(135deg,#ff5252,#d7193f) !important;
+    color: #ffffff !important;
+    font: 800 11px/1 Arial,sans-serif !important;
+    box-shadow: 0 3px 8px rgba(150,0,25,.25) !important;
+  }
+  #userNotificationBtn .jos-notification-count[hidden] {
+    display: none !important;
+  }
+  @media (max-width:600px) {
+    #userNotificationBtn {
+      flex-basis: 52px !important;
+      width: 52px !important;
+      min-width: 52px !important;
+      max-width: 52px !important;
+      height: 52px !important;
+      min-height: 52px !important;
+      max-height: 52px !important;
+      border-radius: 17px !important;
+    }
+    #userNotificationBtn > i { font-size: 24px !important; }
+  }
+  @media (max-width:360px) {
+    #userNotificationBtn {
+      flex-basis: 48px !important;
+      width: 48px !important;
+      min-width: 48px !important;
+      max-width: 48px !important;
+      height: 48px !important;
+      min-height: 48px !important;
+      max-height: 48px !important;
+      border-radius: 15px !important;
+      margin-left: 2px !important;
+      margin-right: 2px !important;
+    }
+    #userNotificationBtn > i { font-size: 22px !important; }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    #userNotificationBtn { transition: none !important; }
+  }
+</style>
+
+
+<style id="jos-admin-only-login-fix">
+#landing .jos-account-switch,#landing .registration-area,#landing #openRegistration,#landing .registration-link,#landing .register-link{display:none!important}
+#landing #loginType{display:none!important}
+#landing.app-login-page{background:#f4f7fb!important;color:#172b3a!important}
+#landing .login-app-wrapper{border:1px solid #e1e8ef!important;border-radius:24px!important;box-shadow:0 24px 70px rgba(15,35,55,.12)!important}
+#landing .jos-admin-only-label{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 22px;padding:13px 15px;border:1px solid #f2caca;border-radius:13px;background:#fff5f5;color:#b4232d;font-size:11px;font-weight:900;letter-spacing:.7px}
+#landing .jos-admin-only-label i{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:#fee2e2;font-size:16px}
+#landing #loginSubmitBtn{background:linear-gradient(120deg,#b91c1c,#e23b42)!important;box-shadow:0 8px 18px #b91c1c2b!important}
+@media(max-width:650px){#landing .login-app-wrapper{min-height:0!important;margin:12px!important;border-radius:18px!important}}
+</style>
 </body>
 </html>
